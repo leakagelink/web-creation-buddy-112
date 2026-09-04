@@ -10,33 +10,141 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AmenitiesRouteImport } from './routes/amenities'
+import { Route as BookingRouteImport } from './routes/booking'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as OffersRouteImport } from './routes/offers'
+import { Route as PartnerRouteImport } from './routes/partner'
+import { Route as RoomsRouteImport } from './routes/rooms'
+import { Route as ThaliMenuRouteImport } from './routes/thali-menu'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AmenitiesRoute = AmenitiesRouteImport.update({
+  id: '/amenities',
+  path: '/amenities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingRoute = BookingRouteImport.update({
+  id: '/booking',
+  path: '/booking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OffersRoute = OffersRouteImport.update({
+  id: '/offers',
+  path: '/offers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnerRoute = PartnerRouteImport.update({
+  id: '/partner',
+  path: '/partner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoomsRoute = RoomsRouteImport.update({
+  id: '/rooms',
+  path: '/rooms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThaliMenuRoute = ThaliMenuRouteImport.update({
+  id: '/thali-menu',
+  path: '/thali-menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/amenities': typeof AmenitiesRoute
+  '/booking': typeof BookingRoute
+  '/contact': typeof ContactRoute
+  '/offers': typeof OffersRoute
+  '/partner': typeof PartnerRoute
+  '/rooms': typeof RoomsRoute
+  '/thali-menu': typeof ThaliMenuRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/amenities': typeof AmenitiesRoute
+  '/booking': typeof BookingRoute
+  '/contact': typeof ContactRoute
+  '/offers': typeof OffersRoute
+  '/partner': typeof PartnerRoute
+  '/rooms': typeof RoomsRoute
+  '/thali-menu': typeof ThaliMenuRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/amenities': typeof AmenitiesRoute
+  '/booking': typeof BookingRoute
+  '/contact': typeof ContactRoute
+  '/offers': typeof OffersRoute
+  '/partner': typeof PartnerRoute
+  '/rooms': typeof RoomsRoute
+  '/thali-menu': typeof ThaliMenuRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/amenities'
+    | '/booking'
+    | '/contact'
+    | '/offers'
+    | '/partner'
+    | '/rooms'
+    | '/thali-menu'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/amenities'
+    | '/booking'
+    | '/contact'
+    | '/offers'
+    | '/partner'
+    | '/rooms'
+    | '/thali-menu'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/amenities'
+    | '/booking'
+    | '/contact'
+    | '/offers'
+    | '/partner'
+    | '/rooms'
+    | '/thali-menu'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AmenitiesRoute: typeof AmenitiesRoute
+  BookingRoute: typeof BookingRoute
+  ContactRoute: typeof ContactRoute
+  OffersRoute: typeof OffersRoute
+  PartnerRoute: typeof PartnerRoute
+  RoomsRoute: typeof RoomsRoute
+  ThaliMenuRoute: typeof ThaliMenuRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +156,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/amenities': {
+      id: '/amenities'
+      path: '/amenities'
+      fullPath: '/amenities'
+      preLoaderRoute: typeof AmenitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/booking': {
+      id: '/booking'
+      path: '/booking'
+      fullPath: '/booking'
+      preLoaderRoute: typeof BookingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/offers': {
+      id: '/offers'
+      path: '/offers'
+      fullPath: '/offers'
+      preLoaderRoute: typeof OffersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partner': {
+      id: '/partner'
+      path: '/partner'
+      fullPath: '/partner'
+      preLoaderRoute: typeof PartnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rooms': {
+      id: '/rooms'
+      path: '/rooms'
+      fullPath: '/rooms'
+      preLoaderRoute: typeof RoomsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/thali-menu': {
+      id: '/thali-menu'
+      path: '/thali-menu'
+      fullPath: '/thali-menu'
+      preLoaderRoute: typeof ThaliMenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AmenitiesRoute: AmenitiesRoute,
+  BookingRoute: BookingRoute,
+  ContactRoute: ContactRoute,
+  OffersRoute: OffersRoute,
+  PartnerRoute: PartnerRoute,
+  RoomsRoute: RoomsRoute,
+  ThaliMenuRoute: ThaliMenuRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
