@@ -5,7 +5,6 @@ import {
   CalendarDays,
   ChevronDown,
   Clock,
-  Headphones,
   Home,
   ShieldCheck,
   Sparkles,
@@ -298,5 +297,3 @@ function RoomCard({ room }: { room: (typeof rooms)[number] }) {
     </article>
   );
 }
-
-export { Headphones };
