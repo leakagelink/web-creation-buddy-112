@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   BadgeCheck,
   BadgePercent,
-  CalendarDays,
   ChevronDown,
   Clock,
   Home,
@@ -82,10 +81,10 @@ function Index() {
           <div className="fade-up self-center rounded-lg border border-gold/25 bg-navy/85 p-5 backdrop-blur sm:p-6" style={{ animationDelay: "120ms" }}>
             <h2 className="text-center text-xl uppercase">Book Your Stay</h2>
             <div className="mt-5 space-y-4">
-              <Field label="Check-in" icon={<CalendarDays className="h-4 w-4 text-muted-foreground" />}>
+              <Field label="Check-in">
                 <input type="date" className="w-full bg-transparent text-sm outline-none" />
               </Field>
-              <Field label="Check-out" icon={<CalendarDays className="h-4 w-4 text-muted-foreground" />}>
+              <Field label="Check-out">
                 <input type="date" className="w-full bg-transparent text-sm outline-none" />
               </Field>
               <Field label="Guests" icon={<ChevronDown className="h-4 w-4 text-muted-foreground" />}>
@@ -243,7 +242,7 @@ function Field({
   children,
 }: {
   label: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
