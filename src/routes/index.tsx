@@ -15,6 +15,7 @@ import heroRoom from "@/assets/hero-room.jpg";
 import thaliImg from "@/assets/thali.jpg";
 import { amenities, rooms, thalis } from "@/lib/site-data";
 import { TrustBar } from "@/components/site/TrustBar";
+import { Reveal } from "@/components/site/Reveal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -53,9 +54,9 @@ function Index() {
           height={1000}
           className="absolute inset-0 h-full w-full object-cover opacity-45 lg:opacity-70 lg:[mask-image:linear-gradient(to_right,transparent,black_38%)]"
         />
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
-          <div>
-            <h1 className="text-4xl uppercase leading-[1.05] sm:text-5xl">
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
+          <div className="fade-up">
+            <h1 className="text-[2rem] uppercase leading-[1.05] sm:text-5xl">
               Clean Room.
               <br />
               Safe Stay.
@@ -69,7 +70,7 @@ function Index() {
               {heroBadges.map(({ Icon, title }) => (
                 <div
                   key={title}
-                  className="w-28 rounded-md border border-gold/40 bg-navy/60 p-3 text-center"
+                  className="hover-lift w-[calc(50%-0.375rem)] rounded-md border border-gold/40 bg-navy/60 p-3 text-center sm:w-28"
                 >
                   <Icon className="mx-auto h-6 w-6 text-gold" strokeWidth={1.6} />
                   <div className="mt-2 text-[11px] font-semibold leading-tight">{title}</div>
@@ -78,7 +79,7 @@ function Index() {
             </div>
           </div>
 
-          <div className="self-center rounded-lg border border-gold/25 bg-navy/85 p-6 backdrop-blur">
+          <div className="fade-up self-center rounded-lg border border-gold/25 bg-navy/85 p-5 backdrop-blur sm:p-6" style={{ animationDelay: "120ms" }}>
             <h2 className="text-center text-xl uppercase">Book Your Stay</h2>
             <div className="mt-5 space-y-4">
               <Field label="Check-in" icon={<CalendarDays className="h-4 w-4 text-muted-foreground" />}>
@@ -96,7 +97,7 @@ function Index() {
               </Field>
               <Link
                 to="/rooms"
-                className="block w-full rounded-md bg-gold py-3 text-center text-sm font-extrabold uppercase tracking-wide text-gold-foreground"
+                className="hover-lift block w-full rounded-md bg-gold py-3 text-center text-sm font-extrabold uppercase tracking-wide text-gold-foreground"
               >
                 Search Rooms
               </Link>
@@ -106,18 +107,20 @@ function Index() {
       </section>
 
       <section className="mx-auto -mt-8 max-w-7xl px-4">
-        <div className="card-surface px-6 py-10">
+        <div className="card-surface px-4 py-10 sm:px-6">
           <h2 className="section-title text-center">Choose Your Room</h2>
           <p className="mt-1 text-center text-sm text-muted-foreground">Comfort for every budget</p>
           <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            {rooms.map((room) => (
-              <RoomCard key={room.id} room={room} />
+            {rooms.map((room, i) => (
+              <Reveal key={room.id} delay={i * 90}>
+                <RoomCard room={room} />
+              </Reveal>
             ))}
           </div>
           <div className="mt-8 text-center">
             <Link
               to="/rooms"
-              className="inline-block rounded-md bg-navy px-8 py-3 text-sm font-bold uppercase tracking-wide text-navy-foreground"
+              className="hover-lift inline-block rounded-md bg-navy px-8 py-3 text-sm font-bold uppercase tracking-wide text-navy-foreground"
             >
               View All Rooms
             </Link>
@@ -146,14 +149,15 @@ function Index() {
             </ul>
             <Link
               to="/thali-menu"
-              className="mt-6 inline-block rounded-md bg-gold px-6 py-3 text-sm font-extrabold uppercase text-gold-foreground"
+              className="hover-lift mt-6 inline-block rounded-md bg-gold px-6 py-3 text-sm font-extrabold uppercase text-gold-foreground"
             >
               View Full Menu
             </Link>
           </div>
           <div className="grid gap-5 sm:grid-cols-3">
-            {thalis.map((thali) => (
-              <div key={thali.id} className="rounded-lg bg-card p-4 text-card-foreground">
+            {thalis.map((thali, i) => (
+              <Reveal key={thali.id} delay={i * 90} className="h-full">
+              <div className="hover-lift h-full rounded-lg bg-card p-4 text-card-foreground">
                 <div className="text-center">
                   <div className="text-sm font-bold uppercase tracking-wide">{thali.name}</div>
                   <div className="mt-1 flex items-center justify-center gap-2">
@@ -185,6 +189,7 @@ function Index() {
                   Order Now
                 </Link>
               </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -193,8 +198,8 @@ function Index() {
       <section className="mx-auto max-w-7xl px-4 py-14">
         <div className="grid gap-8 sm:grid-cols-3 lg:grid-cols-6">
           {amenities.map((a) => (
-            <div key={a.title} className="text-center">
-              <Wifi className="mx-auto h-7 w-7 text-navy" strokeWidth={1.5} />
+            <div key={a.title} className="group text-center transition-transform duration-300 hover:-translate-y-1">
+              <Wifi className="mx-auto h-7 w-7 text-navy transition-colors duration-300 group-hover:text-gold" strokeWidth={1.5} />
               <div className="mt-2 text-sm font-bold">{a.title}</div>
               <div className="text-xs text-muted-foreground">{a.sub}</div>
             </div>
@@ -256,15 +261,15 @@ function Field({
 
 function RoomCard({ room }: { room: (typeof rooms)[number] }) {
   return (
-    <article className="overflow-hidden rounded-lg border border-border bg-card">
-      <div className="relative">
+    <article className="hover-lift group h-full overflow-hidden rounded-lg border border-border bg-card">
+      <div className="relative overflow-hidden">
         <img
           src={room.image}
           alt={`${room.name} at House499`}
           width={900}
           height={600}
           loading="lazy"
-          className="h-40 w-full object-cover"
+          className="h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         {room.badge && (
           <span className="absolute left-0 top-3 bg-gold px-3 py-1 text-[10px] font-extrabold uppercase text-gold-foreground">
@@ -289,7 +294,7 @@ function RoomCard({ room }: { room: (typeof rooms)[number] }) {
         <Link
           to="/booking"
           search={{ room: room.id }}
-          className="mt-4 block rounded-md border border-navy py-2 text-center text-xs font-bold uppercase tracking-wide text-navy transition-colors hover:bg-navy hover:text-navy-foreground"
+          className="hover-gold mt-4 block rounded-md border border-navy py-2 text-center text-xs font-bold uppercase tracking-wide text-navy hover:bg-navy hover:text-navy-foreground"
         >
           View Details
         </Link>
