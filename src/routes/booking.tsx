@@ -1,10 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Lock, ShieldCheck, Tag } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { ArrowRight, Check, Lock, ShieldCheck, Tag, X } from "lucide-react";
 import { useState } from "react";
 import { Stepper } from "@/components/site/Stepper";
 import { TrustBar } from "@/components/site/TrustBar";
 import { BookingSummary } from "@/components/site/BookingSummary";
 import { getRoom, normalThali } from "@/lib/site-data";
+import { validateCoupon } from "@/lib/bookings.functions";
 import thaliImg from "@/assets/thali.jpg";
 
 export const Route = createFileRoute("/booking")({
@@ -22,10 +23,96 @@ export const Route = createFileRoute("/booking")({
   component: BookingPage,
 });
 
+export type BookingDraft = {
+  roomId: string;
+  guestName: string;
+  guestPhone: string;
+  guestEmail: string;
+  guests: number;
+  checkIn: string;
+  checkOut: string;
+  thaliQty: number;
+  specialRequests: string;
+  couponCode: string;
+  discountPercent: number;
+  paymentMethod: "upi" | "property";
+};
+
+export const DRAFT_KEY = "h499-booking-draft";
+
+const inputCls =
+  "mt-1 w-full rounded-md border border-input bg-card px-3 py-2 text-sm outline-none focus:border-gold";
+
 function BookingPage() {
   const { room: roomId } = Route.useSearch();
   const room = getRoom(roomId);
+  const navigate = useNavigate();
+
+  const [guestName, setGuestName] = useState("");
+  const [guestPhone, setGuestPhone] = useState("");
+  const [guestEmail, setGuestEmail] = useState("");
+  const [guests, setGuests] = useState(1);
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
   const [thaliQty, setThaliQty] = useState(1);
+  const [specialRequests, setSpecialRequests] = useState("");
+  const [couponInput, setCouponInput] = useState("");
+  const [coupon, setCoupon] = useState<{ code: string; discountPercent: number } | null>(null);
+  const [couponMsg, setCouponMsg] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const couponFn = validateCoupon;
+
+  async function applyCoupon() {
+    setCouponMsg("");
+    if (!couponInput.trim()) return;
+    try {
+      const res = await couponFn({ data: { code: couponInput } });
+      if (res.ok) {
+        setCoupon({ code: res.code, discountPercent: res.discountPercent });
+        setCouponMsg(`${res.code} applied — ${res.discountPercent}% off!`);
+      } else {
+        setCoupon(null);
+        setCouponMsg("This coupon code is not valid.");
+      }
+    } catch {
+      setCoupon(null);
+      setCouponMsg("Could not check the coupon. Please try again.");
+    }
+  }
+
+  function removeCoupon() {
+    setCoupon(null);
+    setCouponMsg("");
+    setCouponInput("");
+  }
+
+  function proceed() {
+    setError("");
+    if (guestName.trim().length < 2) return setError("Please enter your full name.");
+    if (!/^[6-9]\d{9}$/.test(guestPhone.trim())) return setError("Enter a valid 10-digit mobile number.");
+    if (!/^\S+@\S+\.\S+$/.test(guestEmail.trim())) return setError("Enter a valid email address.");
+    if (!checkIn || !checkOut) return setError("Please select check-in and check-out dates.");
+    if (new Date(checkOut) <= new Date(checkIn)) return setError("Check-out date must be after check-in date.");
+
+    const draft: BookingDraft = {
+      roomId: room.id,
+      guestName: guestName.trim(),
+      guestPhone: guestPhone.trim(),
+      guestEmail: guestEmail.trim(),
+      guests,
+      checkIn,
+      checkOut,
+      thaliQty,
+      specialRequests: specialRequests.trim(),
+      couponCode: coupon?.code ?? "",
+      discountPercent: coupon?.discountPercent ?? 0,
+      paymentMethod: "property",
+    };
+    sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    navigate({ to: "/payment", search: { room: room.id, thali: thaliQty } });
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-16">
@@ -44,30 +131,58 @@ function BookingPage() {
           <h2 className="mt-7 text-base uppercase">Guest Details</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <Field label="Full Name *">
-              <input placeholder="Enter your full name" className={inputCls} />
+              <input
+                value={guestName}
+                onChange={(e) => setGuestName(e.target.value)}
+                placeholder="Enter your full name"
+                className={inputCls}
+                autoComplete="name"
+                maxLength={100}
+              />
             </Field>
             <Field label="Mobile Number *">
               <div className="flex gap-2">
                 <select className={`${inputCls} w-20`}>
                   <option>+91</option>
                 </select>
-                <input placeholder="Enter mobile number" className={inputCls} />
+                <input
+                  value={guestPhone}
+                  onChange={(e) => setGuestPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                  placeholder="10-digit mobile"
+                  inputMode="numeric"
+                  className={inputCls}
+                  autoComplete="tel"
+                />
               </div>
             </Field>
             <div className="sm:col-span-2">
               <Field label="Email Address *">
-                <input type="email" placeholder="you@example.com" className={inputCls} />
+                <input
+                  type="email"
+                  value={guestEmail}
+                  onChange={(e) => setGuestEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className={inputCls}
+                  autoComplete="email"
+                  maxLength={255}
+                />
               </Field>
             </div>
             <Field label="Number of Guests *">
-              <select className={inputCls}>
-                <option>1 Guest</option>
-                <option>2 Guests</option>
+              <select className={inputCls} value={guests} onChange={(e) => setGuests(Number(e.target.value))}>
+                <option value={1}>1 Guest</option>
+                <option value={2}>2 Guests</option>
               </select>
             </Field>
             <div className="sm:col-span-2">
               <Field label="Special Requests (Optional)">
-                <textarea rows={3} placeholder="Any special request?" className={inputCls} />
+                <textarea
+                  rows={3}
+                  value={specialRequests}
+                  onChange={(e) => setSpecialRequests(e.target.value.slice(0, 500))}
+                  placeholder="Any special request?"
+                  className={inputCls}
+                />
               </Field>
             </div>
           </div>
@@ -75,47 +190,77 @@ function BookingPage() {
           <h2 className="mt-7 text-base uppercase">Check-in & Check-out</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <Field label="Check-in Date *">
-              <input type="date" className={inputCls} />
+              <input type="date" value={checkIn} min={new Date().toISOString().slice(0, 10)} onChange={(e) => setCheckIn(e.target.value)} className={inputCls} />
             </Field>
             <Field label="Check-out Date *">
-              <input type="date" className={inputCls} />
+              <input
+                type="date"
+                value={checkOut}
+                min={checkIn || new Date().toISOString().slice(0, 10)}
+                onChange={(e) => setCheckOut(e.target.value)}
+                className={inputCls}
+              />
             </Field>
           </div>
 
-          <h2 className="mt-7 text-base uppercase">Payment Method</h2>
-          <div className="mt-4 space-y-3">
-            {[
-              { t: "Pay Online Now", s: "UPI, Cards, Net Banking, Wallets" },
-              { t: "Pay at Property", s: "Pay during check-in at the hotel" },
-              { t: "Partial Pay (Advance)", s: "Pay now and rest at property" },
-            ].map((m, i) => (
-              <label
-                key={m.t}
-                className="flex cursor-pointer items-center gap-3 rounded-md border border-border px-4 py-3 has-[:checked]:border-gold has-[:checked]:bg-accent"
-              >
-                <input type="radio" name="pay" defaultChecked={i === 0} className="accent-[var(--gold)]" />
-                <span>
-                  <span className="block text-sm font-bold">{m.t}</span>
-                  <span className="block text-xs text-muted-foreground">{m.s}</span>
+          <h2 className="mt-7 text-base uppercase">Coupon Code</h2>
+          <div className="mt-3">
+            {coupon ? (
+              <div className="flex items-center justify-between gap-3 rounded-md bg-success-soft px-4 py-3 text-sm text-success">
+                <span className="flex items-center gap-2">
+                  <Check className="h-4 w-4" /> <b>{coupon.code}</b> — {coupon.discountPercent}% off applied
                 </span>
-              </label>
-            ))}
+                <button onClick={removeCoupon} aria-label="Remove coupon" className="text-success">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <input
+                  value={couponInput}
+                  onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                  placeholder="e.g. HOUSE10"
+                  maxLength={20}
+                  className={inputCls}
+                />
+                <button
+                  onClick={applyCoupon}
+                  className="shrink-0 rounded-md bg-navy px-5 text-xs font-extrabold uppercase tracking-wide text-navy-foreground"
+                >
+                  Apply
+                </button>
+              </div>
+            )}
+            {couponMsg && (
+              <p className={`mt-2 text-xs ${coupon ? "text-success" : "text-destructive"}`}>{couponMsg}</p>
+            )}
           </div>
 
-          <Link
-            to="/payment"
-            search={{ room: room.id, thali: thaliQty }}
-            className="mt-6 flex items-center justify-center gap-2 rounded-md bg-gold py-4 text-sm font-extrabold uppercase tracking-wide text-gold-foreground"
+          {error && (
+            <p className="mt-4 rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">{error}</p>
+          )}
+
+          <button
+            onClick={proceed}
+            disabled={busy}
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-md bg-gold py-4 text-sm font-extrabold uppercase tracking-wide text-gold-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
           >
             Proceed to Payment <ArrowRight className="h-4 w-4" />
-          </Link>
+          </button>
           <p className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground">
-            <Lock className="h-3.5 w-3.5" /> Safe & Secure Payments. Cancel for Free*
+            <Lock className="h-3.5 w-3.5" /> Safe & Secure. Pay at the property or via UPI.
           </p>
         </div>
 
         <div className="space-y-5">
-          <BookingSummary room={room} thaliQty={thaliQty} />
+          <BookingSummary
+            room={room}
+            thaliQty={thaliQty}
+            discountPercent={coupon?.discountPercent ?? 0}
+            checkIn={checkIn}
+            checkOut={checkOut}
+            guests={guests}
+          />
 
           <div className="card-surface p-5">
             <div className="flex items-center justify-between">
@@ -187,9 +332,6 @@ function BookingPage() {
     </div>
   );
 }
-
-const inputCls =
-  "mt-1 w-full rounded-md border border-input bg-card px-3 py-2 text-sm outline-none focus:border-gold";
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
