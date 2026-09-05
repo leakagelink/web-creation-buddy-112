@@ -14,16 +14,123 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          booking_code: string
+          check_in: string
+          check_out: string
+          coupon_code: string | null
+          created_at: string
+          discount_amount: number
+          guest_email: string
+          guest_name: string
+          guest_phone: string
+          guests: number
+          id: string
+          nights: number
+          room_id: string
+          special_requests: string | null
+          status: string
+          thali_qty: number
+          total_amount: number
+        }
+        Insert: {
+          booking_code: string
+          check_in: string
+          check_out: string
+          coupon_code?: string | null
+          created_at?: string
+          discount_amount?: number
+          guest_email: string
+          guest_name: string
+          guest_phone: string
+          guests?: number
+          id?: string
+          nights?: number
+          room_id: string
+          special_requests?: string | null
+          status?: string
+          thali_qty?: number
+          total_amount: number
+        }
+        Update: {
+          booking_code?: string
+          check_in?: string
+          check_out?: string
+          coupon_code?: string | null
+          created_at?: string
+          discount_amount?: number
+          guest_email?: string
+          guest_name?: string
+          guest_phone?: string
+          guests?: number
+          id?: string
+          nights?: number
+          room_id?: string
+          special_requests?: string | null
+          status?: string
+          thali_qty?: number
+          total_amount?: number
+        }
+        Relationships: []
+      }
+      coupons: {
+        Row: {
+          active: boolean
+          code: string
+          created_at: string
+          discount_percent: number
+          id: string
+        }
+        Insert: {
+          active?: boolean
+          code: string
+          created_at?: string
+          discount_percent: number
+          id?: string
+        }
+        Update: {
+          active?: boolean
+          code?: string
+          created_at?: string
+          discount_percent?: number
+          id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +257,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
