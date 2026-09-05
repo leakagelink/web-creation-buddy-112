@@ -22,7 +22,7 @@ function ContactPage() {
   const [sent, setSent] = useState(false);
 
   return (
-    <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 lg:grid-cols-[1.2fr_0.8fr]">
+    <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-14 lg:grid-cols-[1.2fr_0.8fr]">
       <div className="card-surface p-7">
         <h1 className="section-title">Get In Touch</h1>
         <p className="mt-1 text-sm text-muted-foreground">

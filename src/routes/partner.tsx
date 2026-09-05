@@ -126,7 +126,7 @@ function PartnerPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-14">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:py-14">
         <h2 className="section-title text-center">Our Partner Model</h2>
         <p className="mt-1 text-center text-sm text-muted-foreground">Simple. Transparent. Profitable.</p>
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-5">

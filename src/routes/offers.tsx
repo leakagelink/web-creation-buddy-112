@@ -25,7 +25,7 @@ export const Route = createFileRoute("/offers")({
 
 function OffersPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-14">
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:py-14">
       <h1 className="section-title text-center">Exclusive Offers</h1>
       <p className="mt-1 text-center text-sm text-muted-foreground">For direct bookings only</p>
 

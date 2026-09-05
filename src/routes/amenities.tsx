@@ -29,7 +29,7 @@ export const Route = createFileRoute("/amenities")({
 
 function AmenitiesPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-14">
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:py-14">
       <h1 className="section-title text-center">Amenities</h1>
       <p className="mt-1 text-center text-sm text-muted-foreground">
         Everything you need for a comfortable stay
