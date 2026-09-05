@@ -4,12 +4,12 @@ import { useState } from "react";
 import { Stepper } from "@/components/site/Stepper";
 import { TrustBar } from "@/components/site/TrustBar";
 import { BookingSummary, priceBreakdown } from "@/components/site/BookingSummary";
-import { rooms } from "@/lib/site-data";
+import { getRoom } from "@/lib/site-data";
 
 export const Route = createFileRoute("/payment")({
   validateSearch: (search: Record<string, unknown>) => ({
-    room: typeof search.room === "string" ? search.room : "premium",
-    thali: typeof search.thali === "number" ? search.thali : 1,
+    room: typeof search["room"] === "string" ? (search["room"] as string) : "premium",
+    thali: typeof search["thali"] === "number" ? (search["thali"] as number) : 1,
   }),
   head: () => ({
     meta: [
@@ -32,7 +32,7 @@ const methods = [
 
 function PaymentPage() {
   const { room: roomId, thali } = Route.useSearch();
-  const room = rooms.find((r) => r.id === roomId) ?? rooms[2];
+  const room = getRoom(roomId);
   const { total } = priceBreakdown(room, thali);
   const [selected, setSelected] = useState("upi");
 

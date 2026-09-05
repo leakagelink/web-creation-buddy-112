@@ -4,12 +4,12 @@ import { useState } from "react";
 import { Stepper } from "@/components/site/Stepper";
 import { TrustBar } from "@/components/site/TrustBar";
 import { BookingSummary } from "@/components/site/BookingSummary";
-import { rooms, thalis } from "@/lib/site-data";
+import { getRoom, normalThali } from "@/lib/site-data";
 import thaliImg from "@/assets/thali.jpg";
 
 export const Route = createFileRoute("/booking")({
   validateSearch: (search: Record<string, unknown>) => ({
-    room: typeof search.room === "string" ? search.room : "premium",
+    room: typeof search["room"] === "string" ? (search["room"] as string) : "premium",
   }),
   head: () => ({
     meta: [
@@ -24,8 +24,7 @@ export const Route = createFileRoute("/booking")({
 
 function BookingPage() {
   const { room: roomId } = Route.useSearch();
-  const room = rooms.find((r) => r.id === roomId) ?? rooms[2];
-  const normalThali = thalis[1];
+  const room = getRoom(roomId);
   const [thaliQty, setThaliQty] = useState(1);
 
   return (

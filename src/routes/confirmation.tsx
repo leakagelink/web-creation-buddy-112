@@ -14,13 +14,13 @@ import {
 import { Stepper } from "@/components/site/Stepper";
 import { TrustBar } from "@/components/site/TrustBar";
 import { priceBreakdown } from "@/components/site/BookingSummary";
-import { contact, rooms, thalis } from "@/lib/site-data";
+import { contact, getRoom, normalThali } from "@/lib/site-data";
 import thaliImg from "@/assets/thali.jpg";
 
 export const Route = createFileRoute("/confirmation")({
   validateSearch: (search: Record<string, unknown>) => ({
-    room: typeof search.room === "string" ? search.room : "premium",
-    thali: typeof search.thali === "number" ? search.thali : 1,
+    room: typeof search["room"] === "string" ? (search["room"] as string) : "premium",
+    thali: typeof search["thali"] === "number" ? (search["thali"] as number) : 1,
   }),
   head: () => ({
     meta: [
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/confirmation")({
 
 function ConfirmationPage() {
   const { room: roomId, thali: thaliQty } = Route.useSearch();
-  const room = rooms.find((r) => r.id === roomId) ?? rooms[2];
+  const room = getRoom(roomId);
   const { tariff, taxes, thali, total } = priceBreakdown(room, thaliQty);
 
   return (
@@ -164,8 +164,8 @@ function ConfirmationPage() {
                 className="h-28 w-36 rounded-md object-cover"
               />
               <div className="flex-1">
-                <div className="text-sm font-bold uppercase">{thalis[1].name}</div>
-                <div className="text-xs text-muted-foreground">₹{thalis[1].price} per Thali</div>
+                <div className="text-sm font-bold uppercase">{normalThali.name}</div>
+                <div className="text-xs text-muted-foreground">₹{normalThali.price} per Thali</div>
                 <div className="text-xs text-muted-foreground">Quantity: {thaliQty}</div>
                 <div className="mt-3 flex justify-between border-t border-border pt-2 text-sm font-bold">
                   <span>Total</span>
