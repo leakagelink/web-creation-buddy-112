@@ -90,3 +90,9 @@ export const contact = {
   email: "bookinghouse499@gmail.com",
   address: "Varanasi, Uttar Pradesh, India",
 };
+
+export const normalThali: Thali = thalis[1]!;
+
+export function getRoom(id: string): Room {
+  return rooms.find((r) => r.id === id) ?? rooms[2]!;
+}

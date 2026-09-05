@@ -1,11 +1,11 @@
 import { Tag } from "lucide-react";
 import type { Room } from "@/lib/site-data";
-import { thalis } from "@/lib/site-data";
+import { normalThali } from "@/lib/site-data";
 
 export function priceBreakdown(room: Room, thaliQty: number) {
   const tariff = room.price;
   const taxes = Math.round(room.price * 0.151);
-  const thali = thaliQty * thalis[1].price;
+  const thali = thaliQty * normalThali.price;
   return { tariff, taxes, thali, total: tariff + taxes + thali };
 }
 
