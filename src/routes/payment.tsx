@@ -70,7 +70,7 @@ function PaymentPage() {
       navigate({ to: "/confirmation", search: { ref: result.bookingCode } });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not confirm your booking. Please try again.");
-C     } finally {
+    } finally {
       setBusy(false);
     }
   }
