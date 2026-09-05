@@ -3,6 +3,7 @@ import { BadgeCheck, Users } from "lucide-react";
 import { rooms } from "@/lib/site-data";
 import { TrustBar } from "@/components/site/TrustBar";
 import { Stepper } from "@/components/site/Stepper";
+import { Reveal } from "@/components/site/Reveal";
 
 export const Route = createFileRoute("/rooms")({
   head: () => ({
@@ -27,18 +28,16 @@ function RoomsPage() {
       <p className="mt-1 text-center text-sm text-muted-foreground">Comfort for every budget</p>
 
       <div className="mt-8 space-y-5">
-        {rooms.map((room) => (
-          <article
-            key={room.id}
-            className="card-surface grid gap-5 p-4 md:grid-cols-[280px_1fr_200px]"
-          >
+        {rooms.map((room, i) => (
+          <Reveal key={room.id} delay={i * 80}>
+          <article className="card-surface hover-lift group grid gap-5 p-4 md:grid-cols-[280px_1fr_200px]">
             <img
               src={room.image}
               alt={`${room.name} at House499`}
               width={900}
               height={600}
               loading="lazy"
-              className="h-44 w-full rounded-md object-cover"
+              className="h-44 w-full rounded-md object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             />
             <div>
               <div className="flex items-center gap-2">
@@ -72,12 +71,13 @@ function RoomsPage() {
               <Link
                 to="/booking"
                 search={{ room: room.id }}
-                className="w-full rounded-md bg-gold py-3 text-center text-xs font-extrabold uppercase tracking-wide text-gold-foreground"
+                className="hover-lift w-full rounded-md bg-gold py-3 text-center text-xs font-extrabold uppercase tracking-wide text-gold-foreground"
               >
                 Book This Room
               </Link>
             </div>
           </article>
+          </Reveal>
         ))}
       </div>
 

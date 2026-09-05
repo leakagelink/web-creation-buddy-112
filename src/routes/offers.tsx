@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Reveal } from "@/components/site/Reveal";
 
 const offers = [
   { title: "10% OFF", sub: "On all direct bookings", note: "Use code HOUSE10 at checkout." },
@@ -29,18 +30,20 @@ function OffersPage() {
       <p className="mt-1 text-center text-sm text-muted-foreground">For direct bookings only</p>
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2">
-        {offers.map((o) => (
-          <div key={o.title} className="rounded-lg bg-navy p-7 text-navy-foreground">
+        {offers.map((o, i) => (
+          <Reveal key={o.title} delay={i * 90} className="h-full">
+          <div className="hover-lift h-full rounded-lg bg-navy p-6 text-navy-foreground sm:p-7">
             <div className="font-display text-3xl font-extrabold uppercase text-gold">{o.title}</div>
             <div className="mt-1 text-sm font-semibold">{o.sub}</div>
             <p className="mt-3 text-sm text-navy-foreground/70">{o.note}</p>
             <Link
               to="/rooms"
-              className="mt-5 inline-block rounded-md bg-gold px-5 py-2 text-xs font-extrabold uppercase text-gold-foreground"
+              className="hover-lift mt-5 inline-block rounded-md bg-gold px-5 py-2 text-xs font-extrabold uppercase text-gold-foreground"
             >
               Book Now
             </Link>
           </div>
+          </Reveal>
         ))}
       </div>
     </div>
