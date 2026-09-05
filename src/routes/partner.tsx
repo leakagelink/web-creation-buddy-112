@@ -62,7 +62,7 @@ function PartnerPage() {
         />
         <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-16 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <h1 className="text-4xl uppercase leading-tight sm:text-5xl">
+            <h1 className="text-[2rem] uppercase leading-tight sm:text-5xl">
               Partner With
               <br />
               House499

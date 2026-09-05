@@ -28,8 +28,8 @@ const columns = [
 export function Footer() {
   return (
     <footer className="bg-navy text-navy-foreground">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-2 lg:grid-cols-4">
-        <div>
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4 lg:py-12">
+        <div className="sm:col-span-2 lg:col-span-1">
           <Logo />
           <p className="mt-4 text-sm leading-relaxed text-navy-foreground/70">
             Clean Rooms. Safe Stay.
@@ -42,7 +42,7 @@ export function Footer() {
             {[Facebook, Instagram, MessageCircle].map((Icon, i) => (
               <span
                 key={i}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-navy-soft"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-soft transition-colors hover:bg-gold/20"
               >
                 <Icon className="h-4 w-4 text-gold" />
               </span>
@@ -56,7 +56,10 @@ export function Footer() {
             <ul className="mt-4 space-y-2 text-sm text-navy-foreground/75">
               {col.links.map((l) => (
                 <li key={l.label}>
-                  <Link to={l.to} className="hover:text-gold">
+                  <Link
+                    to={l.to}
+                    className="inline-flex min-h-9 items-center transition-colors hover:text-gold"
+                  >
                     {l.label}
                   </Link>
                 </li>
@@ -68,22 +71,41 @@ export function Footer() {
         <div>
           <h4 className="text-sm uppercase tracking-widest text-gold">Contact Us</h4>
           <ul className="mt-4 space-y-3 text-sm text-navy-foreground/75">
-            <li className="flex items-center gap-2">
-              <Phone className="h-4 w-4 text-gold" /> {contact.phone}
+            <li>
+              <a
+                href={`tel:${contact.phone}`}
+                className="flex min-h-9 items-start gap-2 transition-colors hover:text-gold"
+              >
+                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
+                <span className="min-w-0 break-words">{contact.phone}</span>
+              </a>
             </li>
-            <li className="flex items-center gap-2">
-              <Phone className="h-4 w-4 text-gold" /> {contact.altPhone}
+            <li>
+              <a
+                href={`tel:${contact.altPhone}`}
+                className="flex min-h-9 items-start gap-2 transition-colors hover:text-gold"
+              >
+                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
+                <span className="min-w-0 break-words">{contact.altPhone}</span>
+              </a>
             </li>
-            <li className="flex items-center gap-2">
-              <Mail className="h-4 w-4 text-gold" /> {contact.email}
+            <li>
+              <a
+                href={`mailto:${contact.email}`}
+                className="flex min-h-9 items-start gap-2 transition-colors hover:text-gold"
+              >
+                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
+                <span className="min-w-0 break-all">{contact.email}</span>
+              </a>
             </li>
-            <li className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-gold" /> {contact.address}
+            <li className="flex items-start gap-2">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
+              <span className="min-w-0 break-words">{contact.address}</span>
             </li>
           </ul>
         </div>
       </div>
-      <div className="border-t border-navy-foreground/10 py-4 text-center text-xs text-navy-foreground/60">
+      <div className="border-t border-navy-foreground/10 px-4 py-4 text-center text-xs leading-relaxed text-navy-foreground/60">
         © 2026 House499. All Rights Reserved.
       </div>
     </footer>
