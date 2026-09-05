@@ -126,18 +126,18 @@ function GuidePage() {
               thali meals and 24x7 support. Use coupon <b className="text-navy">HOUSE10</b> for 10% off direct bookings.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <a
-                href="/rooms"
+              <Link
+                to="/rooms"
                 className="hover-lift flex items-center gap-2 rounded-md bg-gold px-6 py-3 text-xs font-extrabold uppercase text-gold-foreground"
               >
                 <BedDouble className="h-4 w-4" /> Book a Room
               </a>
-              <a
-                href="/thali-menu"
+              <Link
+                to="/thali-menu"
                 className="hover-lift flex items-center gap-2 rounded-md border border-navy px-6 py-3 text-xs font-extrabold uppercase text-navy"
               >
                 <Utensils className="h-4 w-4" /> See Thali Menu
-              </a>
+              </Link>
             </div>
           </div>
           <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">

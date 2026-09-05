@@ -52,11 +52,6 @@ const bookingInput = z.object({
   couponCode: z.string().trim().max(20).optional().or(z.literal("")),
 });
 
-function bookingCode() {
-  const rand = Math.random().toString(36).toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 4);
-  const num = Date.now().toString().slice(-6);
-  return `H499-${num}-${rand}`;
-}
 
 export const validateCoupon = createServerFn({ method: "POST" })
   .inputValidator((data: { code: string }) => data)
