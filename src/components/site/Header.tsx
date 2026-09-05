@@ -19,7 +19,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-navy text-navy-foreground">
+    <header className="sticky top-0 z-50 bg-navy text-navy-foreground shadow-[0_2px_12px_oklch(0.22_0.045_259/0.25)]">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:gap-4">
         <Link to="/" onClick={() => setOpen(false)}>
           <Logo />
@@ -56,6 +56,7 @@ export function Header() {
           <UserCircle2 className="hidden h-8 w-8 text-navy-foreground/80 md:block" strokeWidth={1.4} />
           <button
             aria-label="Menu"
+            aria-expanded={open}
             className="transition-transform duration-200 hover:scale-110 xl:hidden"
             onClick={() => setOpen((v) => !v)}
           >
@@ -65,13 +66,13 @@ export function Header() {
       </div>
 
       {open && (
-        <nav className="fade-up grid gap-1 border-t border-navy-foreground/10 px-4 pb-4 xl:hidden">
+        <nav className="fade-up grid max-h-[70vh] gap-1 overflow-y-auto border-t border-navy-foreground/10 px-4 pb-4 xl:hidden">
           {nav.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               onClick={() => setOpen(false)}
-              className="rounded-md px-2 py-2 text-sm font-semibold uppercase tracking-wide text-navy-foreground/85 transition-colors hover:bg-navy-soft hover:text-gold"
+              className="flex min-h-11 items-center rounded-md px-2 py-2 text-sm font-semibold uppercase tracking-wide text-navy-foreground/85 transition-colors hover:bg-navy-soft hover:text-gold"
             >
               {item.label}
             </Link>

@@ -53,7 +53,7 @@ function Index() {
           height={1000}
           className="absolute inset-0 h-full w-full object-cover opacity-45 lg:opacity-70 lg:[mask-image:linear-gradient(to_right,transparent,black_38%)]"
         />
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-10 sm:py-14 sm:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
           <div className="fade-up">
             <h1 className="text-[2rem] uppercase leading-[1.05] sm:text-5xl">
               Clean Room.
@@ -127,7 +127,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="mt-14 bg-navy py-14 text-navy-foreground">
+      <section className="mt-10 bg-navy sm:mt-14 py-10 text-navy-foreground sm:py-14">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 lg:grid-cols-[0.8fr_2fr]">
           <div>
             <h2 className="text-3xl uppercase">
@@ -194,7 +194,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-14">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:py-14">
         <div className="grid gap-8 sm:grid-cols-3 lg:grid-cols-6">
           {amenities.map((a) => (
             <div key={a.title} className="group text-center transition-transform duration-300 hover:-translate-y-1">
@@ -205,7 +205,7 @@ function Index() {
           ))}
         </div>
 
-        <div className="mt-12 grid gap-6 rounded-lg bg-navy px-8 py-8 text-navy-foreground md:grid-cols-4">
+        <div className="mt-10 grid sm:mt-12 gap-6 rounded-lg bg-navy px-8 py-8 text-navy-foreground md:grid-cols-4">
           <div>
             <h3 className="text-xl uppercase">Exclusive Offers</h3>
             <p className="text-sm text-gold">For Direct Bookings</p>

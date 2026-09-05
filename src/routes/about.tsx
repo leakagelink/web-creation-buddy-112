@@ -26,7 +26,7 @@ const stats = [
 function AboutPage() {
   return (
     <div>
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 lg:grid-cols-2">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-10 sm:py-14 lg:grid-cols-2">
         <div>
           <h1 className="section-title">About House499</h1>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">

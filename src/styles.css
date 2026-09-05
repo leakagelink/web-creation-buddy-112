@@ -110,7 +110,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.01em;
-  font-size: 1.75rem;
+  font-size: clamp(1.35rem, 5.5vw, 1.75rem);
   line-height: 1.15;
 }
 
@@ -225,5 +225,25 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+@layer base {
+  @media (max-width: 640px) {
+    h1 {
+      font-size: clamp(1.75rem, 8vw, 2.25rem);
+      line-height: 1.1;
+    }
+
+    h2 {
+      font-size: clamp(1.25rem, 6vw, 1.6rem);
+      line-height: 1.15;
+    }
+
+    /* Comfortable tap targets on touch devices */
+    a[class*="rounded-md"],
+    button[class*="rounded-md"] {
+      min-height: 44px;
+    }
   }
 }

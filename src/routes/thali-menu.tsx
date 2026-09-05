@@ -22,7 +22,7 @@ export const Route = createFileRoute("/thali-menu")({
 function ThaliMenu() {
   return (
     <div className="bg-navy text-navy-foreground">
-      <div className="mx-auto max-w-7xl px-4 py-14">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:py-14">
         <h1 className="fade-up text-center text-2xl uppercase sm:text-3xl">
           House<span className="text-gold">499</span> Thali Menu
         </h1>
