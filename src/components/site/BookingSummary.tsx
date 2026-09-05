@@ -14,8 +14,8 @@ export function BookingSummary({ room, thaliQty }: { room: Room; thaliQty: numbe
 
   return (
     <div className="overflow-hidden rounded-lg border border-border bg-card">
-      <h2 className="bg-navy px-5 py-3 text-base uppercase text-navy-foreground">Booking Summary</h2>
-      <div className="p-5">
+      <h2 className="bg-navy px-4 py-3 sm:px-5 text-base uppercase text-navy-foreground">Booking Summary</h2>
+      <div className="p-4 sm:p-5">
         <div className="flex gap-4">
           <img
             src={room.image}
@@ -23,9 +23,9 @@ export function BookingSummary({ room, thaliQty }: { room: Room; thaliQty: numbe
             width={900}
             height={600}
             loading="lazy"
-            className="h-20 w-28 rounded-md object-cover"
+            className="h-20 w-24 shrink-0 rounded-md object-cover sm:w-28"
           />
-          <div>
+          <div className="min-w-0">
             <div className="text-sm font-bold uppercase">{room.name}</div>
             <div className="text-xs text-muted-foreground">{room.subtitle}</div>
             <div className="mt-1 text-[11px] text-muted-foreground">{room.tags.join(" · ")}</div>
@@ -57,9 +57,9 @@ export function BookingSummary({ room, thaliQty }: { room: Room; thaliQty: numbe
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between">
-      <dt className="text-muted-foreground">{label}</dt>
-      <dd className="font-semibold">{value}</dd>
+    <div className="flex justify-between gap-3">
+      <dt className="min-w-0 text-muted-foreground">{label}</dt>
+      <dd className="min-w-0 text-right font-semibold">{value}</dd>
     </div>
   );
 }
