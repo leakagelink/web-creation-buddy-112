@@ -13,9 +13,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AmenitiesRouteImport } from './routes/amenities'
 import { Route as BookingRouteImport } from './routes/booking'
+import { Route as ConfirmationRouteImport } from './routes/confirmation'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as OffersRouteImport } from './routes/offers'
 import { Route as PartnerRouteImport } from './routes/partner'
+import { Route as PaymentRouteImport } from './routes/payment'
 import { Route as RoomsRouteImport } from './routes/rooms'
 import { Route as ThaliMenuRouteImport } from './routes/thali-menu'
 
@@ -39,6 +41,11 @@ const BookingRoute = BookingRouteImport.update({
   path: '/booking',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfirmationRoute = ConfirmationRouteImport.update({
+  id: '/confirmation',
+  path: '/confirmation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -52,6 +59,11 @@ const OffersRoute = OffersRouteImport.update({
 const PartnerRoute = PartnerRouteImport.update({
   id: '/partner',
   path: '/partner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentRoute = PaymentRouteImport.update({
+  id: '/payment',
+  path: '/payment',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RoomsRoute = RoomsRouteImport.update({
@@ -70,9 +82,11 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/amenities': typeof AmenitiesRoute
   '/booking': typeof BookingRoute
+  '/confirmation': typeof ConfirmationRoute
   '/contact': typeof ContactRoute
   '/offers': typeof OffersRoute
   '/partner': typeof PartnerRoute
+  '/payment': typeof PaymentRoute
   '/rooms': typeof RoomsRoute
   '/thali-menu': typeof ThaliMenuRoute
 }
@@ -81,9 +95,11 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/amenities': typeof AmenitiesRoute
   '/booking': typeof BookingRoute
+  '/confirmation': typeof ConfirmationRoute
   '/contact': typeof ContactRoute
   '/offers': typeof OffersRoute
   '/partner': typeof PartnerRoute
+  '/payment': typeof PaymentRoute
   '/rooms': typeof RoomsRoute
   '/thali-menu': typeof ThaliMenuRoute
 }
@@ -93,9 +109,11 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/amenities': typeof AmenitiesRoute
   '/booking': typeof BookingRoute
+  '/confirmation': typeof ConfirmationRoute
   '/contact': typeof ContactRoute
   '/offers': typeof OffersRoute
   '/partner': typeof PartnerRoute
+  '/payment': typeof PaymentRoute
   '/rooms': typeof RoomsRoute
   '/thali-menu': typeof ThaliMenuRoute
 }
@@ -106,9 +124,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/amenities'
     | '/booking'
+    | '/confirmation'
     | '/contact'
     | '/offers'
     | '/partner'
+    | '/payment'
     | '/rooms'
     | '/thali-menu'
   fileRoutesByTo: FileRoutesByTo
@@ -117,9 +137,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/amenities'
     | '/booking'
+    | '/confirmation'
     | '/contact'
     | '/offers'
     | '/partner'
+    | '/payment'
     | '/rooms'
     | '/thali-menu'
   id:
@@ -128,9 +150,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/amenities'
     | '/booking'
+    | '/confirmation'
     | '/contact'
     | '/offers'
     | '/partner'
+    | '/payment'
     | '/rooms'
     | '/thali-menu'
   fileRoutesById: FileRoutesById
@@ -140,9 +164,11 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AmenitiesRoute: typeof AmenitiesRoute
   BookingRoute: typeof BookingRoute
+  ConfirmationRoute: typeof ConfirmationRoute
   ContactRoute: typeof ContactRoute
   OffersRoute: typeof OffersRoute
   PartnerRoute: typeof PartnerRoute
+  PaymentRoute: typeof PaymentRoute
   RoomsRoute: typeof RoomsRoute
   ThaliMenuRoute: typeof ThaliMenuRoute
 }
@@ -177,6 +203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/confirmation': {
+      id: '/confirmation'
+      path: '/confirmation'
+      fullPath: '/confirmation'
+      preLoaderRoute: typeof ConfirmationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -196,6 +229,13 @@ declare module '@tanstack/react-router' {
       path: '/partner'
       fullPath: '/partner'
       preLoaderRoute: typeof PartnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payment': {
+      id: '/payment'
+      path: '/payment'
+      fullPath: '/payment'
+      preLoaderRoute: typeof PaymentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rooms': {
@@ -220,9 +260,11 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AmenitiesRoute: AmenitiesRoute,
   BookingRoute: BookingRoute,
+  ConfirmationRoute: ConfirmationRoute,
   ContactRoute: ContactRoute,
   OffersRoute: OffersRoute,
   PartnerRoute: PartnerRoute,
+  PaymentRoute: PaymentRoute,
   RoomsRoute: RoomsRoute,
   ThaliMenuRoute: ThaliMenuRoute,
 }
