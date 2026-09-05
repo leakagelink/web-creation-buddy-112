@@ -6,6 +6,7 @@ import { lovable } from "@/integrations/lovable";
 import { Logo } from "@/components/site/Logo";
 
 export const Route = createFileRoute("/auth")({
+  ssr: false,
   validateSearch: (search: Record<string, unknown>) => ({
     redirect: typeof search["redirect"] === "string" ? (search["redirect"] as string) : undefined,
   }),
@@ -107,7 +108,7 @@ function AuthPage() {
           {mode === "signin"
             ? "Sign in to manage your House499 bookings."
             : "Create your House499 account to continue."}
-        </h1>
+        </p>
 
         <button
           onClick={handleGoogle}

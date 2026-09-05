@@ -8,9 +8,7 @@ const columns = [
     title: "Company",
     links: [
       { label: "About Us", to: "/about" },
-      { label: "Our Rooms", to: "/rooms" },
-      { label: "Amenities", to: "/amenities" },
-      { label: "Thali Menu", to: "/thali-menu" },
+      { label: "Varanasi Guide", to: "/varanasi-guide" },
       { label: "Offers", to: "/offers" },
       { label: "Contact Us", to: "/contact" },
     ],
@@ -39,14 +37,21 @@ export function Footer() {
             All at House499.
           </p>
           <div className="mt-4 flex gap-3">
-            {[Facebook, Instagram, MessageCircle].map((Icon, i) => (
-              <span
-                key={i}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-soft transition-colors hover:bg-gold/20"
-              >
-                <Icon className="h-4 w-4 text-gold" />
-              </span>
-            ))}
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-soft transition-colors hover:bg-gold/20">
+              <Facebook className="h-4 w-4 text-gold" />
+            </span>
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-soft transition-colors hover:bg-gold/20">
+              <Instagram className="h-4 w-4 text-gold" />
+            </span>
+            <a
+              href={`https://wa.me/91${contact.phone}?text=${encodeURIComponent("Hello House499! I want to book a room.")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Chat on WhatsApp"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-soft transition-colors hover:bg-gold/20"
+            >
+              <MessageCircle className="h-4 w-4 text-gold" />
+            </a>
           </div>
         </div>
 

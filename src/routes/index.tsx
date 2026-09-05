@@ -15,6 +15,10 @@ import thaliImg from "@/assets/thali.jpg";
 import { amenities, rooms, thalis } from "@/lib/site-data";
 import { TrustBar } from "@/components/site/TrustBar";
 import { Reveal } from "@/components/site/Reveal";
+import { Gallery } from "@/components/site/Gallery";
+import { Reviews } from "@/components/site/Reviews";
+import { Faq } from "@/components/site/Faq";
+import { LocationMap } from "@/components/site/LocationMap";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -194,6 +198,8 @@ function Index() {
         </div>
       </section>
 
+      <Gallery />
+
       <section className="mx-auto max-w-7xl px-4 py-10 sm:py-14">
         <div className="grid gap-8 sm:grid-cols-3 lg:grid-cols-6">
           {amenities.map((a) => (
@@ -227,6 +233,12 @@ function Index() {
             </div>
           ))}
         </div>
+
+        <Reviews />
+
+        <Faq />
+
+        <LocationMap />
 
         <div className="mt-12">
           <TrustBar />

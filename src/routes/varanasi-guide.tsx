@@ -131,7 +131,7 @@ function GuidePage() {
                 className="hover-lift flex items-center gap-2 rounded-md bg-gold px-6 py-3 text-xs font-extrabold uppercase text-gold-foreground"
               >
                 <BedDouble className="h-4 w-4" /> Book a Room
-              </a>
+              </Link>
               <Link
                 to="/thali-menu"
                 className="hover-lift flex items-center gap-2 rounded-md border border-navy px-6 py-3 text-xs font-extrabold uppercase text-navy"

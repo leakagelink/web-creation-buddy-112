@@ -10,6 +10,7 @@ const nav = [
   { label: "Thali Menu", to: "/thali-menu" },
   { label: "Amenities", to: "/amenities" },
   { label: "Offers", to: "/offers" },
+  { label: "Varanasi Guide", to: "/varanasi-guide" },
   { label: "About Us", to: "/about" },
   { label: "Contact", to: "/contact" },
   { label: "Partner", to: "/partner" },
@@ -53,7 +54,12 @@ export function Header() {
           >
             Book Now
           </Link>
-          <UserCircle2 className="hidden h-8 w-8 text-navy-foreground/80 md:block" strokeWidth={1.4} />
+          <Link to="/admin" aria-label="Admin sign in" className="hidden md:block">
+            <UserCircle2
+              className="h-8 w-8 text-navy-foreground/80 transition-colors hover:text-gold"
+              strokeWidth={1.4}
+            />
+          </Link>
           <button
             aria-label="Menu"
             aria-expanded={open}
