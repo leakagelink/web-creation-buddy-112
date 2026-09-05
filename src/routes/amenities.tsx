@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BatteryCharging, Camera, Headphones, KeyRound, Sparkles, Wifi } from "lucide-react";
 import { TrustBar } from "@/components/site/TrustBar";
+import { Reveal } from "@/components/site/Reveal";
 
 const items = [
   { Icon: Wifi, title: "Free Wi-Fi", sub: "High speed internet in every room." },
@@ -34,12 +35,14 @@ function AmenitiesPage() {
         Everything you need for a comfortable stay
       </p>
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map(({ Icon, title, sub }) => (
-          <div key={title} className="card-surface p-6">
-            <Icon className="h-8 w-8 text-gold" strokeWidth={1.6} />
+        {items.map(({ Icon, title, sub }, i) => (
+          <Reveal key={title} delay={i * 80} className="h-full">
+          <div className="card-surface hover-lift group h-full p-6">
+            <Icon className="h-8 w-8 text-gold transition-transform duration-300 group-hover:scale-110" strokeWidth={1.6} />
             <h2 className="mt-4 text-base uppercase">{title}</h2>
             <p className="mt-1 text-sm text-muted-foreground">{sub}</p>
           </div>
+          </Reveal>
         ))}
       </div>
       <div className="mt-12">
