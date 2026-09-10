@@ -25,6 +25,7 @@ import { Route as RoomsRouteImport } from './routes/rooms'
 import { Route as ThaliMenuRouteImport } from './routes/thali-menu'
 import { Route as VaranasiGuideRouteImport } from './routes/varanasi-guide'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as RoomsRoomIdRouteImport } from './routes/rooms.$roomId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -105,6 +106,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const RoomsRoomIdRoute = RoomsRoomIdRouteImport.update({
+  id: '/$roomId',
+  path: '/$roomId',
+  getParentRoute: () => RoomsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -118,10 +124,11 @@ export interface FileRoutesByFullPath {
   '/partner': typeof PartnerRoute
   '/payment': typeof PaymentRoute
   '/properties': typeof PropertiesRoute
-  '/rooms': typeof RoomsRoute
+  '/rooms': typeof RoomsRouteWithChildren
   '/thali-menu': typeof ThaliMenuRoute
   '/varanasi-guide': typeof VaranasiGuideRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/rooms/$roomId': typeof RoomsRoomIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -135,10 +142,11 @@ export interface FileRoutesByTo {
   '/partner': typeof PartnerRoute
   '/payment': typeof PaymentRoute
   '/properties': typeof PropertiesRoute
-  '/rooms': typeof RoomsRoute
+  '/rooms': typeof RoomsRouteWithChildren
   '/thali-menu': typeof ThaliMenuRoute
   '/varanasi-guide': typeof VaranasiGuideRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/rooms/$roomId': typeof RoomsRoomIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -154,10 +162,11 @@ export interface FileRoutesById {
   '/partner': typeof PartnerRoute
   '/payment': typeof PaymentRoute
   '/properties': typeof PropertiesRoute
-  '/rooms': typeof RoomsRoute
+  '/rooms': typeof RoomsRouteWithChildren
   '/thali-menu': typeof ThaliMenuRoute
   '/varanasi-guide': typeof VaranasiGuideRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/rooms/$roomId': typeof RoomsRoomIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -177,6 +186,7 @@ export interface FileRouteTypes {
     | '/thali-menu'
     | '/varanasi-guide'
     | '/admin'
+    | '/rooms/$roomId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -194,6 +204,7 @@ export interface FileRouteTypes {
     | '/thali-menu'
     | '/varanasi-guide'
     | '/admin'
+    | '/rooms/$roomId'
   id:
     | '__root__'
     | '/'
@@ -212,6 +223,7 @@ export interface FileRouteTypes {
     | '/thali-menu'
     | '/varanasi-guide'
     | '/_authenticated/admin'
+    | '/rooms/$roomId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -227,7 +239,7 @@ export interface RootRouteChildren {
   PartnerRoute: typeof PartnerRoute
   PaymentRoute: typeof PaymentRoute
   PropertiesRoute: typeof PropertiesRoute
-  RoomsRoute: typeof RoomsRoute
+  RoomsRoute: typeof RoomsRouteWithChildren
   ThaliMenuRoute: typeof ThaliMenuRoute
   VaranasiGuideRoute: typeof VaranasiGuideRoute
 }
@@ -346,6 +358,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/rooms/$roomId': {
+      id: '/rooms/$roomId'
+      path: '/$roomId'
+      fullPath: '/rooms/$roomId'
+      preLoaderRoute: typeof RoomsRoomIdRouteImport
+      parentRoute: typeof RoomsRoute
+    }
   }
 }
 
@@ -360,6 +379,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface RoomsRouteChildren {
+  RoomsRoomIdRoute: typeof RoomsRoomIdRoute
+}
+
+const RoomsRouteChildren: RoomsRouteChildren = {
+  RoomsRoomIdRoute: RoomsRoomIdRoute,
+}
+
+const RoomsRouteWithChildren = RoomsRoute._addFileChildren(RoomsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -373,7 +402,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartnerRoute: PartnerRoute,
   PaymentRoute: PaymentRoute,
   PropertiesRoute: PropertiesRoute,
-  RoomsRoute: RoomsRoute,
+  RoomsRoute: RoomsRouteWithChildren,
   ThaliMenuRoute: ThaliMenuRoute,
   VaranasiGuideRoute: VaranasiGuideRoute,
 }

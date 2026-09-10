@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, BadgeCheck, BedDouble, Check, Maximize, Users, Wifi } from "lucide-react";
-import { getRoom, rooms } from "@/lib/site-data";
+import { rooms } from "@/lib/site-data";
 import { TrustBar } from "@/components/site/TrustBar";
 import { Reveal } from "@/components/site/Reveal";
 

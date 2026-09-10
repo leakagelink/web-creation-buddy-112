@@ -69,11 +69,11 @@ function RoomsPage() {
                 <div className="text-xs text-muted-foreground">per night + taxes</div>
               </div>
               <Link
-                to="/booking"
-                search={{ room: room.id }}
+                to="/rooms/$roomId"
+                params={{ roomId: room.id }}
                 className="hover-lift w-full rounded-md bg-gold py-3 text-center text-xs font-extrabold uppercase tracking-wide text-gold-foreground"
               >
-                Book This Room
+                View Details
               </Link>
             </div>
           </article>
