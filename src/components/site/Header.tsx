@@ -6,14 +6,12 @@ import { contact } from "@/lib/site-data";
 
 const nav = [
   { label: "Home", to: "/" },
+  { label: "Properties", to: "/properties" },
   { label: "Rooms", to: "/rooms" },
-  { label: "Thali Menu", to: "/thali-menu" },
-  { label: "Amenities", to: "/amenities" },
-  { label: "Offers", to: "/offers" },
-  { label: "Varanasi Guide", to: "/varanasi-guide" },
+  { label: "Thali", to: "/thali-menu" },
+  { label: "Partner With Us", to: "/partner" },
   { label: "About Us", to: "/about" },
-  { label: "Contact", to: "/contact" },
-  { label: "Partner", to: "/partner" },
+  { label: "Contact Us", to: "/contact" },
 ] as const;
 
 export function Header() {
