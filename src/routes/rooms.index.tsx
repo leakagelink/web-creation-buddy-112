@@ -5,7 +5,7 @@ import { TrustBar } from "@/components/site/TrustBar";
 import { Stepper } from "@/components/site/Stepper";
 import { Reveal } from "@/components/site/Reveal";
 
-export const Route = createFileRoute("/rooms")({
+export const Route = createFileRoute("/rooms/")({
   head: () => ({
     meta: [
       { title: "Rooms from ₹499 — House499 Varanasi" },

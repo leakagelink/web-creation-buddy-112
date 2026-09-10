@@ -25,6 +25,7 @@ import { Route as RoomsRouteImport } from './routes/rooms'
 import { Route as ThaliMenuRouteImport } from './routes/thali-menu'
 import { Route as VaranasiGuideRouteImport } from './routes/varanasi-guide'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as RoomsIndexRouteImport } from './routes/rooms.index'
 import { Route as RoomsRoomIdRouteImport } from './routes/rooms.$roomId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -106,6 +107,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const RoomsIndexRoute = RoomsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RoomsRoute,
+} as any)
 const RoomsRoomIdRoute = RoomsRoomIdRouteImport.update({
   id: '/$roomId',
   path: '/$roomId',
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/varanasi-guide': typeof VaranasiGuideRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
+  '/rooms/': typeof RoomsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -142,11 +149,11 @@ export interface FileRoutesByTo {
   '/partner': typeof PartnerRoute
   '/payment': typeof PaymentRoute
   '/properties': typeof PropertiesRoute
-  '/rooms': typeof RoomsRouteWithChildren
   '/thali-menu': typeof ThaliMenuRoute
   '/varanasi-guide': typeof VaranasiGuideRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
+  '/rooms': typeof RoomsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -167,6 +174,7 @@ export interface FileRoutesById {
   '/varanasi-guide': typeof VaranasiGuideRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
+  '/rooms/': typeof RoomsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -187,6 +195,7 @@ export interface FileRouteTypes {
     | '/varanasi-guide'
     | '/admin'
     | '/rooms/$roomId'
+    | '/rooms/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -200,11 +209,11 @@ export interface FileRouteTypes {
     | '/partner'
     | '/payment'
     | '/properties'
-    | '/rooms'
     | '/thali-menu'
     | '/varanasi-guide'
     | '/admin'
     | '/rooms/$roomId'
+    | '/rooms'
   id:
     | '__root__'
     | '/'
@@ -224,6 +233,7 @@ export interface FileRouteTypes {
     | '/varanasi-guide'
     | '/_authenticated/admin'
     | '/rooms/$roomId'
+    | '/rooms/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -358,6 +368,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/rooms/': {
+      id: '/rooms/'
+      path: '/'
+      fullPath: '/rooms/'
+      preLoaderRoute: typeof RoomsIndexRouteImport
+      parentRoute: typeof RoomsRoute
+    }
     '/rooms/$roomId': {
       id: '/rooms/$roomId'
       path: '/$roomId'
@@ -381,10 +398,12 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface RoomsRouteChildren {
   RoomsRoomIdRoute: typeof RoomsRoomIdRoute
+  RoomsIndexRoute: typeof RoomsIndexRoute
 }
 
 const RoomsRouteChildren: RoomsRouteChildren = {
   RoomsRoomIdRoute: RoomsRoomIdRoute,
+  RoomsIndexRoute: RoomsIndexRoute,
 }
 
 const RoomsRouteWithChildren = RoomsRoute._addFileChildren(RoomsRouteChildren)
