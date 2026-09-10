@@ -303,8 +303,8 @@ function RoomCard({ room }: { room: (typeof rooms)[number] }) {
           ))}
         </div>
         <Link
-          to="/booking"
-          search={{ room: room.id }}
+          to="/rooms/$roomId"
+          params={{ roomId: room.id }}
           className="hover-gold mt-4 block rounded-md border border-navy py-2 text-center text-xs font-bold uppercase tracking-wide text-navy hover:bg-navy hover:text-navy-foreground"
         >
           View Details

@@ -11,6 +11,10 @@ export type Room = {
   tags: string[];
   badge?: string;
   image: string;
+  description: string;
+  highlights: string[];
+  size: string;
+  occupancy: string;
 };
 
 export const rooms: Room[] = [
@@ -22,6 +26,11 @@ export const rooms: Room[] = [
     tags: ["1 Guest", "Free Wi-Fi"],
     badge: "Best Value",
     image: smart,
+    description:
+      "A cosy, budget-friendly room designed for solo travellers. Clean single bed, fresh linen, high-speed Wi-Fi and a hygienic shared bathroom — everything you need for a comfortable night near the ghats without stretching your budget.",
+    highlights: ["Comfortable single bed", "Shared hygienic bathroom", "High-speed free Wi-Fi", "Daily housekeeping", "Fresh linen & towels", "CCTV secured floor"],
+    size: "120 sq.ft",
+    occupancy: "1 Guest",
   },
   {
     id: "comfort",
@@ -30,6 +39,11 @@ export const rooms: Room[] = [
     subtitle: "Attached Bathroom",
     tags: ["2 Guests", "Free Wi-Fi"],
     image: comfort,
+    description:
+      "Perfect for couples and two-person stays, the Comfort Room comes with a private attached bathroom, a plush double bed, fresh towels and 24x7 hot water. Enjoy privacy and cleanliness at a pocket-friendly price.",
+    highlights: ["Private attached bathroom", "Comfortable double bed", "24x7 hot water", "Free high-speed Wi-Fi", "Daily housekeeping", "Power backup"],
+    size: "160 sq.ft",
+    occupancy: "2 Guests",
   },
   {
     id: "premium",
@@ -39,6 +53,11 @@ export const rooms: Room[] = [
     tags: ["2 Guests", "AC Room", "Free Wi-Fi"],
     badge: "Most Popular",
     image: premium,
+    description:
+      "Our most loved room — fully air-conditioned with an attached bathroom, premium bedding, a work desk and a flat-screen TV. Ideal for guests who want extra comfort after a long day exploring Varanasi.",
+    highlights: ["Air conditioning", "Private attached bathroom", "Work desk & chair", "Flat-screen TV", "Premium bedding", "Free high-speed Wi-Fi", "24x7 hot water"],
+    size: "200 sq.ft",
+    occupancy: "2 Guests",
   },
   {
     id: "signature",
@@ -47,6 +66,11 @@ export const rooms: Room[] = [
     subtitle: "Larger Room + Extra Amenities",
     tags: ["2 Guests", "AC Room", "Free Wi-Fi"],
     image: signature,
+    description:
+      "Our most spacious and luxurious option. The Signature Room offers a king-size bed, elegant interiors, a seating area, AC, premium toiletries and a large attached bathroom — a truly relaxing stay at House499.",
+    highlights: ["Spacious king-size bed", "Air conditioning", "Seating area", "Premium toiletries", "Large attached bathroom", "Flat-screen TV", "Free high-speed Wi-Fi", "Room service"],
+    size: "280 sq.ft",
+    occupancy: "2 Guests",
   },
 ];
 
