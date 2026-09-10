@@ -73,7 +73,7 @@ function RoomsPage() {
                 params={{ roomId: room.id }}
                 className="hover-lift w-full rounded-md bg-gold py-3 text-center text-xs font-extrabold uppercase tracking-wide text-gold-foreground"
               >
-                View Details
+                View Property
               </Link>
             </div>
           </article>

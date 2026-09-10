@@ -307,7 +307,7 @@ function RoomCard({ room }: { room: (typeof rooms)[number] }) {
           params={{ roomId: room.id }}
           className="hover-gold mt-4 block rounded-md border border-navy py-2 text-center text-xs font-bold uppercase tracking-wide text-navy hover:bg-navy hover:text-navy-foreground"
         >
-          View Details
+          View Property
         </Link>
       </div>
     </article>
