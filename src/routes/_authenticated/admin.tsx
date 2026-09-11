@@ -6,6 +6,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { getBookings, updateBookingStatus } from "@/lib/bookings.functions";
 import { Logo } from "@/components/site/Logo";
 import { AdminProperties } from "@/components/site/AdminProperties";
+import { AdminCollection } from "@/components/site/AdminCollection";
+import { AdminSettings } from "@/components/site/AdminSettings";
+import { collections } from "@/lib/admin-schema";
 import { rooms } from "@/lib/site-data";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -65,7 +68,15 @@ function AdminPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [filter, setFilter] = useState<"all" | "pending" | "confirmed" | "cancelled">("all");
-  const [tab, setTab] = useState<"bookings" | "properties">("bookings");
+  const [tab, setTab] = useState<string>("bookings");
+
+  const tabs = [
+    { key: "bookings", label: "Bookings" },
+    { key: "properties", label: "Properties" },
+    ...collections.map((c) => ({ key: c.table, label: c.label })),
+    { key: "settings", label: "Settings" },
+  ];
+  const activeCollection = collections.find((c) => c.table === tab);
 
   const statusMutation = useMutation({
     mutationFn: (input: { id: string; status: string }) => updateBookingStatus({ data: input }),
