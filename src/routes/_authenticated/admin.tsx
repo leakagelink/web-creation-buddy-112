@@ -5,6 +5,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { getBookings, updateBookingStatus } from "@/lib/bookings.functions";
 import { Logo } from "@/components/site/Logo";
+import { AdminProperties } from "@/components/site/AdminProperties";
 import { rooms } from "@/lib/site-data";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -64,6 +65,7 @@ function AdminPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [filter, setFilter] = useState<"all" | "pending" | "confirmed" | "cancelled">("all");
+  const [tab, setTab] = useState<"bookings" | "properties">("bookings");
 
   const statusMutation = useMutation({
     mutationFn: (input: { id: string; status: string }) => updateBookingStatus({ data: input }),
@@ -99,6 +101,29 @@ function AdminPage() {
         </div>
       </div>
 
+      <div className="mb-5 flex gap-2 border-b border-border">
+        {(["bookings", "properties"] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={`-mb-px border-b-2 px-4 py-2 text-[11px] font-extrabold uppercase tracking-wide ${
+              tab === t ? "border-gold text-navy" : "border-transparent text-muted-foreground"
+            }`}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      {tab === "properties" && (
+        <>
+          <h1 className="section-title">Properties</h1>
+          <AdminProperties />
+        </>
+      )}
+
+      {tab === "bookings" && (
+        <>
       <h1 className="section-title">Bookings</h1>
       <p className="mt-1 text-sm text-muted-foreground">All guest bookings, newest first.</p>
 
@@ -138,6 +163,8 @@ function AdminPage() {
           />
         ))}
       </div>
+        </>
+      )}
     </div>
   );
 }
