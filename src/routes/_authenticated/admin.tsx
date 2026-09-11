@@ -112,16 +112,16 @@ function AdminPage() {
         </div>
       </div>
 
-      <div className="mb-5 flex gap-2 border-b border-border">
-        {(["bookings", "properties"] as const).map((t) => (
+      <div className="mb-5 flex gap-1 overflow-x-auto border-b border-border">
+        {tabs.map((t) => (
           <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={`-mb-px border-b-2 px-4 py-2 text-[11px] font-extrabold uppercase tracking-wide ${
-              tab === t ? "border-gold text-navy" : "border-transparent text-muted-foreground"
+            key={t.key}
+            onClick={() => setTab(t.key)}
+            className={`-mb-px shrink-0 border-b-2 px-4 py-2 text-[11px] font-extrabold uppercase tracking-wide ${
+              tab === t.key ? "border-gold text-navy" : "border-transparent text-muted-foreground"
             }`}
           >
-            {t}
+            {t.label}
           </button>
         ))}
       </div>
@@ -130,6 +130,27 @@ function AdminPage() {
         <>
           <h1 className="section-title">Properties</h1>
           <AdminProperties />
+        </>
+      )}
+
+      {activeCollection && (
+        <>
+          <h1 className="section-title">{activeCollection.label}</h1>
+          <div className="mt-4">
+            <AdminCollection key={activeCollection.table} config={activeCollection} />
+          </div>
+        </>
+      )}
+
+      {tab === "settings" && (
+        <>
+          <h1 className="section-title">Contact &amp; Settings</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Phone, email and address shown across the website.
+          </p>
+          <div className="mt-4">
+            <AdminSettings />
+          </div>
         </>
       )}
 
