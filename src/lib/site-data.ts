@@ -212,6 +212,29 @@ export const attractions: Attraction[] = [
   { name: "Lal Bahadur Shastri Airport", distance: "26 km", note: "Around 45–60 minutes by taxi." },
 ];
 
+export type Property = {
+  id: string;
+  name: string;
+  location: string;
+  rating: number;
+  reviews: number;
+  fromPrice: number;
+  image: string;
+  comingSoon?: boolean;
+};
+
+import exterior from "@/assets/gallery-exterior.jpg";
+import propPrayagraj from "@/assets/property-prayagraj.jpg";
+import propLucknow from "@/assets/property-lucknow.jpg";
+import propGaya from "@/assets/property-gaya.jpg";
+
+export const properties: Property[] = [
+  { id: "varanasi", name: "House499 Varanasi", location: "Sarnath, Varanasi, UP", rating: 4.6, reviews: 120, fromPrice: 499, image: exterior },
+  { id: "prayagraj", name: "House499 Prayagraj", location: "Civil Lines, Prayagraj, UP", rating: 4.4, reviews: 98, fromPrice: 499, image: propPrayagraj, comingSoon: true },
+  { id: "lucknow", name: "House499 Lucknow", location: "Gomti Nagar, Lucknow, UP", rating: 4.5, reviews: 110, fromPrice: 499, image: propLucknow, comingSoon: true },
+  { id: "gaya", name: "House499 Gaya", location: "Buddha Marg, Gaya, Bihar", rating: 4.3, reviews: 87, fromPrice: 499, image: propGaya, comingSoon: true },
+];
+
 export const normalThali: Thali = thalis[1]!;
 
 export function getRoom(id: string): Room {
