@@ -1,5 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+
+const db = supabase as unknown as SupabaseClient;
 import {
   amenities as staticAmenities,
   attractions as staticAttractions,
@@ -40,7 +43,7 @@ export function usePublicRows(table: Collection) {
   return useQuery({
     queryKey: ["public-content", table],
     queryFn: async (): Promise<Row[]> => {
-      let q = supabase.from(table).select("*");
+      let q = db.from(table).select("*");
       if (table !== "coupons") q = q.eq("visible", true);
       const { data, error } = await q.order(
         table === "coupons" ? "created_at" : "sort_order",
@@ -58,7 +61,7 @@ export function useAdminRows(table: Collection) {
   return useQuery({
     queryKey: ["admin-content", table],
     queryFn: async (): Promise<Row[]> => {
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from(table)
         .select("*")
         .order(table === "coupons" ? "created_at" : "sort_order", { ascending: true });
@@ -81,13 +84,13 @@ export function useRooms(): Room[] {
       price: Number(r["price"]),
       subtitle: String(r["subtitle"] ?? ""),
       tags: (r["tags"] as string[]) ?? [],
-      badge: (r["badge"] as string | null) ?? undefined,
+      ...((r["badge"] ? { badge: String(r["badge"]) } : {}) as { badge?: string }),
       image: (r["image_url"] as string | null) || roomImages[slug] || smart,
       description: String(r["description"] ?? ""),
       highlights: (r["highlights"] as string[]) ?? [],
       size: String(r["size"] ?? ""),
       occupancy: String(r["occupancy"] ?? ""),
-    } satisfies Room;
+    } as Room;
   });
 }
 
@@ -99,7 +102,7 @@ export function useThalis(): Thali[] {
     name: String(t["name"]),
     price: Number(t["price"]),
     items: (t["items"] as string[]) ?? [],
-    badge: (t["badge"] as string | null) ?? undefined,
+    ...((t["badge"] ? { badge: String(t["badge"]) } : {}) as { badge?: string }),
   }));
 }
 
