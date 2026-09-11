@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, BedDouble, CalendarClock, Camera, MapPin, TrainFront, Utensils } from "lucide-react";
 import ghatImg from "@/assets/guide-ghats.jpg";
-import { attractions } from "@/lib/site-data";
+import { useAttractions } from "@/lib/content";
 import { TrustBar } from "@/components/site/TrustBar";
 import { Reveal } from "@/components/site/Reveal";
 
@@ -36,6 +36,7 @@ const tips = [
 ];
 
 function GuidePage() {
+  const attractions = useAttractions();
   return (
     <div className="pb-0">
       <section className="relative overflow-hidden bg-navy text-navy-foreground">

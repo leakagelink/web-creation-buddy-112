@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck, Users } from "lucide-react";
-import { rooms } from "@/lib/site-data";
+import { useRooms } from "@/lib/content";
 import { TrustBar } from "@/components/site/TrustBar";
 import { Stepper } from "@/components/site/Stepper";
 import { Reveal } from "@/components/site/Reveal";
@@ -21,6 +21,7 @@ export const Route = createFileRoute("/rooms/")({
 });
 
 function RoomsPage() {
+  const rooms = useRooms();
   return (
     <div className="mx-auto max-w-7xl px-4 pb-16">
       <Stepper current={1} />

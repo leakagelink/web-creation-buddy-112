@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MessageCircle, QrCode } from "lucide-react";
 import thaliImg from "@/assets/thali.jpg";
-import { thalis } from "@/lib/site-data";
+import { useThalis } from "@/lib/content";
 import { Reveal } from "@/components/site/Reveal";
 
 export const Route = createFileRoute("/thali-menu")({
@@ -20,6 +20,7 @@ export const Route = createFileRoute("/thali-menu")({
 });
 
 function ThaliMenu() {
+  const thalis = useThalis();
   return (
     <div className="bg-navy text-navy-foreground">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:py-14">

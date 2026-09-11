@@ -1,8 +1,9 @@
 import { Quote, Star } from "lucide-react";
-import { reviews } from "@/lib/site-data";
+import { useReviews } from "@/lib/content";
 import { Reveal } from "@/components/site/Reveal";
 
 export function Reviews() {
+  const reviews = useReviews();
   return (
     <section className="bg-navy py-10 text-navy-foreground sm:py-14">
       <div className="mx-auto max-w-7xl px-4">
