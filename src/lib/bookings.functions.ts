@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
@@ -7,7 +8,7 @@ import { getRoom, normalThali } from "@/lib/site-data";
 // ---------- shared pricing ----------
 
 export async function computePricing(
-  supabase: ReturnType<typeof createClient>,
+  supabase: { from: (t: string) => any },
   roomId: string,
   thaliQty: number,
   discountPercent: number,
