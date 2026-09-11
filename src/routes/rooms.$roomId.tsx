@@ -1,15 +1,12 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, BadgeCheck, BedDouble, Check, Maximize, Users, Wifi } from "lucide-react";
 import { rooms } from "@/lib/site-data";
+import { useRooms } from "@/lib/content";
 import { TrustBar } from "@/components/site/TrustBar";
 import { Reveal } from "@/components/site/Reveal";
 
 export const Route = createFileRoute("/rooms/$roomId")({
-  loader: ({ params }) => {
-    const room = rooms.find((r) => r.id === params["roomId"]);
-    if (!room) throw notFound();
-    return room;
-  },
+  loader: ({ params }) => rooms.find((r) => r.id === params["roomId"]) ?? null,
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
@@ -40,8 +37,12 @@ function RoomNotFound() {
 }
 
 function RoomDetailPage() {
-  const room = Route.useLoaderData();
-  const similar = rooms.filter((r) => r.id !== room.id).slice(0, 3);
+  const staticRoom = Route.useLoaderData();
+  const { roomId } = Route.useParams();
+  const allRooms = useRooms();
+  const room = allRooms.find((r) => r.id === roomId) ?? staticRoom;
+  if (!room) return <RoomNotFound />;
+  const similar = allRooms.filter((r) => r.id !== room.id).slice(0, 3);
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-16">
