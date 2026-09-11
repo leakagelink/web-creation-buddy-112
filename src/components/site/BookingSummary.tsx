@@ -1,11 +1,17 @@
 import { Tag } from "lucide-react";
 import type { Room } from "@/lib/site-data";
+import { normalThali } from "@/lib/site-data";
 import { useNormalThali } from "@/lib/content";
 
-export function priceBreakdown(room: Room, thaliQty: number, discountPercent = 0) {
+export function priceBreakdown(
+  room: Room,
+  thaliQty: number,
+  discountPercent = 0,
+  thaliPrice = normalThali.price,
+) {
   const tariff = room.price;
   const taxes = Math.round(room.price * 0.151);
-  const thali = thaliQty * normalThali.price;
+  const thali = thaliQty * thaliPrice;
   const discount = Math.round(((tariff + thali) * discountPercent) / 100);
   const total = tariff + taxes + thali - discount;
   return { tariff, taxes, thali, discount, total };
@@ -33,7 +39,13 @@ export function BookingSummary({
   checkOut?: string;
   guests?: number;
 }) {
-  const { tariff, taxes, thali, discount, total } = priceBreakdown(room, thaliQty, discountPercent);
+  const thaliItem = useNormalThali();
+  const { tariff, taxes, thali, discount, total } = priceBreakdown(
+    room,
+    thaliQty,
+    discountPercent,
+    thaliItem.price,
+  );
 
   return (
     <div className="overflow-hidden rounded-lg border border-border bg-card">
