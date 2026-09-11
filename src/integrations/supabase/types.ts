@@ -14,6 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
+      amenities: {
+        Row: {
+          created_at: string
+          id: string
+          sort_order: number
+          sub: string
+          title: string
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          sort_order?: number
+          sub?: string
+          title: string
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          sort_order?: number
+          sub?: string
+          title?: string
+          updated_at?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
+      attractions: {
+        Row: {
+          created_at: string
+          distance: string
+          id: string
+          name: string
+          note: string
+          sort_order: number
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          created_at?: string
+          distance?: string
+          id?: string
+          name: string
+          note?: string
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          created_at?: string
+          distance?: string
+          id?: string
+          name?: string
+          note?: string
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           booking_code: string
@@ -98,6 +161,36 @@ export type Database = {
         }
         Relationships: []
       }
+      faqs: {
+        Row: {
+          answer: string
+          created_at: string
+          id: string
+          question: string
+          sort_order: number
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          answer?: string
+          created_at?: string
+          id?: string
+          question: string
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          id?: string
+          question?: string
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
       properties: {
         Row: {
           address: string | null
@@ -142,6 +235,171 @@ export type Database = {
           name?: string
           rating?: number
           reviews?: number
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          city: string
+          created_at: string
+          id: string
+          name: string
+          rating: number
+          sort_order: number
+          stay: string
+          text: string
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          city?: string
+          created_at?: string
+          id?: string
+          name: string
+          rating?: number
+          sort_order?: number
+          stay?: string
+          text?: string
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          id?: string
+          name?: string
+          rating?: number
+          sort_order?: number
+          stay?: string
+          text?: string
+          updated_at?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
+      rooms: {
+        Row: {
+          badge: string | null
+          created_at: string
+          description: string
+          highlights: string[]
+          id: string
+          image_url: string | null
+          name: string
+          occupancy: string
+          price: number
+          size: string
+          slug: string
+          sort_order: number
+          subtitle: string
+          tags: string[]
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          badge?: string | null
+          created_at?: string
+          description?: string
+          highlights?: string[]
+          id?: string
+          image_url?: string | null
+          name: string
+          occupancy?: string
+          price?: number
+          size?: string
+          slug: string
+          sort_order?: number
+          subtitle?: string
+          tags?: string[]
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          badge?: string | null
+          created_at?: string
+          description?: string
+          highlights?: string[]
+          id?: string
+          image_url?: string | null
+          name?: string
+          occupancy?: string
+          price?: number
+          size?: string
+          slug?: string
+          sort_order?: number
+          subtitle?: string
+          tags?: string[]
+          updated_at?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          address: string
+          alt_phone: string
+          email: string
+          id: number
+          phone: string
+          updated_at: string
+          whatsapp_message: string
+        }
+        Insert: {
+          address?: string
+          alt_phone?: string
+          email?: string
+          id?: number
+          phone?: string
+          updated_at?: string
+          whatsapp_message?: string
+        }
+        Update: {
+          address?: string
+          alt_phone?: string
+          email?: string
+          id?: number
+          phone?: string
+          updated_at?: string
+          whatsapp_message?: string
+        }
+        Relationships: []
+      }
+      thalis: {
+        Row: {
+          badge: string | null
+          created_at: string
+          id: string
+          items: string[]
+          name: string
+          price: number
+          slug: string
+          sort_order: number
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          badge?: string | null
+          created_at?: string
+          id?: string
+          items?: string[]
+          name: string
+          price?: number
+          slug: string
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          badge?: string | null
+          created_at?: string
+          id?: string
+          items?: string[]
+          name?: string
+          price?: number
           slug?: string
           sort_order?: number
           updated_at?: string
