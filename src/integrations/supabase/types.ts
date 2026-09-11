@@ -98,6 +98,57 @@ export type Database = {
         }
         Relationships: []
       }
+      properties: {
+        Row: {
+          address: string | null
+          coming_soon: boolean
+          created_at: string
+          from_price: number
+          id: string
+          image_url: string | null
+          location: string
+          name: string
+          rating: number
+          reviews: number
+          slug: string
+          sort_order: number
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          address?: string | null
+          coming_soon?: boolean
+          created_at?: string
+          from_price?: number
+          id?: string
+          image_url?: string | null
+          location: string
+          name: string
+          rating?: number
+          reviews?: number
+          slug: string
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          address?: string | null
+          coming_soon?: boolean
+          created_at?: string
+          from_price?: number
+          id?: string
+          image_url?: string | null
+          location?: string
+          name?: string
+          rating?: number
+          reviews?: number
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
