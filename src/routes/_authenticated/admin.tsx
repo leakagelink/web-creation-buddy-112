@@ -65,6 +65,7 @@ function AdminPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [filter, setFilter] = useState<"all" | "pending" | "confirmed" | "cancelled">("all");
+  const [tab, setTab] = useState<"bookings" | "properties">("bookings");
 
   const statusMutation = useMutation({
     mutationFn: (input: { id: string; status: string }) => updateBookingStatus({ data: input }),
