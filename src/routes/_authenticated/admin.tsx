@@ -68,7 +68,15 @@ function AdminPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [filter, setFilter] = useState<"all" | "pending" | "confirmed" | "cancelled">("all");
-  const [tab, setTab] = useState<"bookings" | "properties">("bookings");
+  const [tab, setTab] = useState<string>("bookings");
+
+  const tabs = [
+    { key: "bookings", label: "Bookings" },
+    { key: "properties", label: "Properties" },
+    ...collections.map((c) => ({ key: c.table, label: c.label })),
+    { key: "settings", label: "Settings" },
+  ];
+  const activeCollection = collections.find((c) => c.table === tab);
 
   const statusMutation = useMutation({
     mutationFn: (input: { id: string; status: string }) => updateBookingStatus({ data: input }),
