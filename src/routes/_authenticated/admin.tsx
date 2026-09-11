@@ -99,6 +99,29 @@ function AdminPage() {
         </div>
       </div>
 
+      <div className="mb-5 flex gap-2 border-b border-border">
+        {(["bookings", "properties"] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={`-mb-px border-b-2 px-4 py-2 text-[11px] font-extrabold uppercase tracking-wide ${
+              tab === t ? "border-gold text-navy" : "border-transparent text-muted-foreground"
+            }`}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      {tab === "properties" && (
+        <>
+          <h1 className="section-title">Properties</h1>
+          <AdminProperties />
+        </>
+      )}
+
+      {tab === "bookings" && (
+        <>
       <h1 className="section-title">Bookings</h1>
       <p className="mt-1 text-sm text-muted-foreground">All guest bookings, newest first.</p>
 
