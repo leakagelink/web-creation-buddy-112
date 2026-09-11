@@ -6,6 +6,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { getBookings, updateBookingStatus } from "@/lib/bookings.functions";
 import { Logo } from "@/components/site/Logo";
 import { AdminProperties } from "@/components/site/AdminProperties";
+import { AdminCollection } from "@/components/site/AdminCollection";
+import { AdminSettings } from "@/components/site/AdminSettings";
+import { collections } from "@/lib/admin-schema";
 import { rooms } from "@/lib/site-data";
 
 export const Route = createFileRoute("/_authenticated/admin")({
