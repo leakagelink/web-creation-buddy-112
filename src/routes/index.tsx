@@ -16,6 +16,7 @@ import { amenities, rooms, thalis } from "@/lib/site-data";
 import { TrustBar } from "@/components/site/TrustBar";
 import { Reveal } from "@/components/site/Reveal";
 import { Gallery } from "@/components/site/Gallery";
+import { FeaturedProperties } from "@/components/site/FeaturedProperties";
 import { Reviews } from "@/components/site/Reviews";
 import { Faq } from "@/components/site/Faq";
 import { LocationMap } from "@/components/site/LocationMap";
@@ -197,6 +198,8 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <FeaturedProperties />
 
       <Gallery />
 
