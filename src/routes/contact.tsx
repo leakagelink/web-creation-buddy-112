@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { useState } from "react";
-import { contact } from "@/lib/site-data";
+import { useSettings } from "@/lib/content";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -19,6 +19,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
+  const contact = useSettings();
   const [sent, setSent] = useState(false);
 
   return (

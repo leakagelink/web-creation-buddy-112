@@ -11,7 +11,8 @@ import { useEffect, useState } from "react";
 import { Stepper } from "@/components/site/Stepper";
 import { TrustBar } from "@/components/site/TrustBar";
 import { priceBreakdown } from "@/components/site/BookingSummary";
-import { contact, getRoom, whatsappLink } from "@/lib/site-data";
+import { getRoom } from "@/lib/site-data";
+import { useSettings } from "@/lib/content";
 import { DRAFT_KEY, type BookingDraft } from "@/routes/booking";
 
 export const Route = createFileRoute("/confirmation")({
@@ -30,6 +31,8 @@ export const Route = createFileRoute("/confirmation")({
 });
 
 function ConfirmationPage() {
+  const contact = useSettings();
+  const whatsappLink = contact.whatsappLink;
   const { ref } = Route.useSearch();
   const [draft, setDraft] = useState<BookingDraft | null>(null);
 

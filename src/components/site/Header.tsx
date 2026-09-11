@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Menu, Phone, UserCircle2, X } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "./Logo";
-import { contact } from "@/lib/site-data";
+import { useSettings } from "@/lib/content";
 
 const nav = [
   { label: "Home", to: "/" },
@@ -15,6 +15,7 @@ const nav = [
 ] as const;
 
 export function Header() {
+  const contact = useSettings();
   const [open, setOpen] = useState(false);
 
   return (
