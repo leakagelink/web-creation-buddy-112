@@ -103,7 +103,7 @@ export function AdminCollection({ config }: { config: CollectionConfig }) {
 
   const toggleVisible = useMutation({
     mutationFn: async (row: Row) => {
-      const { error } = await supabase
+      const { error } = await db
         .from(config.table)
         .update({ visible: !row["visible"] })
         .eq("id", String(row["id"]));
