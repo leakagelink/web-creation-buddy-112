@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MapPin, Users } from "lucide-react";
 import galleryExterior from "@/assets/gallery-exterior.jpg";
-import { rooms, contact } from "@/lib/site-data";
+import { useRooms, useSettings } from "@/lib/content";
 import { LocationMap } from "@/components/site/LocationMap";
 import { TrustBar } from "@/components/site/TrustBar";
 
@@ -24,6 +24,8 @@ export const Route = createFileRoute("/properties")({
 });
 
 function PropertiesPage() {
+  const rooms = useRooms();
+  const contact = useSettings();
   return (
     <div className="mx-auto max-w-7xl px-4 pb-16">
       <h1 className="section-title">Our Properties</h1>

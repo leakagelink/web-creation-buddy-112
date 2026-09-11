@@ -1,8 +1,10 @@
 import { MapPin, Navigation } from "lucide-react";
-import { attractions, contact } from "@/lib/site-data";
+import { useAttractions, useSettings } from "@/lib/content";
 import { Reveal } from "@/components/site/Reveal";
 
 export function LocationMap() {
+  const attractions = useAttractions();
+  const contact = useSettings();
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:py-14">
       <h2 className="section-title text-center">Where You'll Stay</h2>

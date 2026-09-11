@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Eye, EyeOff, Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+
+const db = supabase as unknown as SupabaseClient;
 import { useAdminRows } from "@/lib/content";
 import type { CollectionConfig, Field } from "@/lib/admin-schema";
 
@@ -73,10 +76,10 @@ export function AdminCollection({ config }: { config: CollectionConfig }) {
           throw new Error(`${field.label} is required`);
       }
       if (editingId) {
-        const { error } = await supabase.from(config.table).update(payload).eq("id", editingId);
+        const { error } = await db.from(config.table).update(payload).eq("id", editingId);
         if (error) throw new Error(error.message);
       } else {
-        const { error } = await supabase.from(config.table).insert(payload);
+        const { error } = await db.from(config.table).insert(payload);
         if (error) throw new Error(error.message);
       }
     },
@@ -91,7 +94,7 @@ export function AdminCollection({ config }: { config: CollectionConfig }) {
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from(config.table).delete().eq("id", id);
+      const { error } = await db.from(config.table).delete().eq("id", id);
       if (error) throw new Error(error.message);
     },
     onSuccess: refresh,
@@ -100,7 +103,7 @@ export function AdminCollection({ config }: { config: CollectionConfig }) {
 
   const toggleVisible = useMutation({
     mutationFn: async (row: Row) => {
-      const { error } = await supabase
+      const { error } = await db
         .from(config.table)
         .update({ visible: !row["visible"] })
         .eq("id", String(row["id"]));

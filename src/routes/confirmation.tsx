@@ -11,7 +11,8 @@ import { useEffect, useState } from "react";
 import { Stepper } from "@/components/site/Stepper";
 import { TrustBar } from "@/components/site/TrustBar";
 import { priceBreakdown } from "@/components/site/BookingSummary";
-import { contact, getRoom, whatsappLink } from "@/lib/site-data";
+import { getRoom } from "@/lib/site-data";
+import { useNormalThali, useSettings } from "@/lib/content";
 import { DRAFT_KEY, type BookingDraft } from "@/routes/booking";
 
 export const Route = createFileRoute("/confirmation")({
@@ -30,6 +31,9 @@ export const Route = createFileRoute("/confirmation")({
 });
 
 function ConfirmationPage() {
+  const contact = useSettings();
+  const thaliItem = useNormalThali();
+  const whatsappLink = contact.whatsappLink;
   const { ref } = Route.useSearch();
   const [draft, setDraft] = useState<BookingDraft | null>(null);
 
@@ -43,7 +47,9 @@ function ConfirmationPage() {
   }, []);
 
   const room = draft ? getRoom(draft.roomId) : null;
-  const pricing = room ? priceBreakdown(room, draft!.thaliQty, draft!.discountPercent) : null;
+  const pricing = room
+    ? priceBreakdown(room, draft!.thaliQty, draft!.discountPercent, thaliItem.price)
+    : null;
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-16">

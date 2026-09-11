@@ -1,8 +1,9 @@
 import { ChevronDown } from "lucide-react";
-import { faqs } from "@/lib/site-data";
+import { useFaqs } from "@/lib/content";
 import { Reveal } from "@/components/site/Reveal";
 
 export function Faq() {
+  const faqs = useFaqs();
   return (
     <section className="mx-auto max-w-3xl px-4 py-10 sm:py-14">
       <h2 className="section-title text-center">Frequently Asked Questions</h2>

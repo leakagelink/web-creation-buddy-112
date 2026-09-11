@@ -14,7 +14,7 @@ import {
   Wrench,
 } from "lucide-react";
 import heroRoom from "@/assets/hero-room.jpg";
-import { contact } from "@/lib/site-data";
+import { useSettings } from "@/lib/content";
 
 export const Route = createFileRoute("/partner")({
   head: () => ({
@@ -50,6 +50,7 @@ const benefits = [
 ];
 
 function PartnerPage() {
+  const contact = useSettings();
   return (
     <div>
       <section className="relative overflow-hidden bg-navy text-navy-foreground">

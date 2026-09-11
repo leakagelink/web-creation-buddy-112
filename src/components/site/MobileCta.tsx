@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { CalendarCheck, MessageCircle, Phone } from "lucide-react";
-import { contact } from "@/lib/site-data";
+import { useSettings } from "@/lib/content";
 
 export function MobileCta() {
+  const contact = useSettings();
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur md:hidden">
       <div className="mx-auto flex max-w-md items-center gap-2 px-3 py-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))]">

@@ -12,7 +12,8 @@ import {
 } from "lucide-react";
 import heroRoom from "@/assets/hero-room.jpg";
 import thaliImg from "@/assets/thali.jpg";
-import { amenities, rooms, thalis } from "@/lib/site-data";
+import { useAmenities, useRooms, useThalis } from "@/lib/content";
+import type { Room } from "@/lib/site-data";
 import { TrustBar } from "@/components/site/TrustBar";
 import { Reveal } from "@/components/site/Reveal";
 import { Gallery } from "@/components/site/Gallery";
@@ -48,6 +49,9 @@ const heroBadges = [
 ];
 
 function Index() {
+  const rooms = useRooms();
+  const thalis = useThalis();
+  const amenities = useAmenities();
   return (
     <>
       <section className="relative overflow-hidden bg-navy text-navy-foreground">
@@ -273,7 +277,7 @@ function Field({
   );
 }
 
-function RoomCard({ room }: { room: (typeof rooms)[number] }) {
+function RoomCard({ room }: { room: Room }) {
   return (
     <article className="hover-lift group h-full overflow-hidden rounded-lg border border-border bg-card">
       <div className="relative overflow-hidden">

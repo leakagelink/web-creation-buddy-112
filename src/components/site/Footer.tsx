@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Logo } from "./Logo";
-import { contact } from "@/lib/site-data";
+import { useSettings } from "@/lib/content";
 
 const columns = [
   {
@@ -24,6 +24,7 @@ const columns = [
 ] as const;
 
 export function Footer() {
+  const contact = useSettings();
   return (
     <footer className="bg-navy text-navy-foreground">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4 lg:py-12">

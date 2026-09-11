@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
@@ -6,15 +7,31 @@ import { getRoom, normalThali } from "@/lib/site-data";
 
 // ---------- shared pricing ----------
 
-export function computePricing(
+export async function computePricing(
+  supabase: { from: (t: string) => any },
   roomId: string,
   thaliQty: number,
   discountPercent: number,
 ) {
-  const room = getRoom(roomId);
+  const fallback = getRoom(roomId);
+  const { data: dbRoom } = await supabase
+    .from("rooms")
+    .select("name, price")
+    .eq("slug", roomId)
+    .eq("visible", true)
+    .maybeSingle();
+  const { data: dbThali } = await supabase
+    .from("thalis")
+    .select("price")
+    .eq("slug", "normal")
+    .maybeSingle();
+  const room = dbRoom
+    ? { name: String(dbRoom["name"]), price: Number(dbRoom["price"]) }
+    : { name: fallback.name, price: fallback.price };
+  const thaliPrice = dbThali ? Number(dbThali["price"]) : normalThali.price;
   const tariff = room.price;
   const taxes = Math.round(room.price * 0.151);
-  const thali = thaliQty * normalThali.price;
+  const thali = thaliQty * thaliPrice;
   const discount = Math.round(((tariff + thali) * discountPercent) / 100);
   const total = tariff + taxes + thali - discount;
   return { roomName: room.name, tariff, taxes, thali, discount, total };
@@ -97,7 +114,7 @@ export const createBooking = createServerFn({ method: "POST" })
       throw new Error("Check-out date must be after check-in date");
     }
 
-    const pricing = computePricing(data.roomId, data.thaliQty, discountPercent);
+    const pricing = await computePricing(supabase, data.roomId, data.thaliQty, discountPercent);
     const code = `H499-${Date.now().toString().slice(-6)}-${Math.random().toString(36).toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 4)}`;
 
     const { error } = await supabase.from("bookings").insert({
