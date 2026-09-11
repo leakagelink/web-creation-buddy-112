@@ -14,6 +14,7 @@ import {
   type Room,
   type Thali,
 } from "@/lib/site-data";
+import { getRoom as staticGetRoom } from "@/lib/site-data";
 
 import smart from "@/assets/room-smart.jpg";
 import comfort from "@/assets/room-comfort.jpg";
@@ -100,6 +101,16 @@ export function useThalis(): Thali[] {
     items: (t["items"] as string[]) ?? [],
     badge: (t["badge"] as string | null) ?? undefined,
   }));
+}
+
+export function useRoom(id: string): Room {
+  const rooms = useRooms();
+  return rooms.find((r) => r.id === id) ?? staticGetRoom(id);
+}
+
+export function useNormalThali(): Thali {
+  const thalis = useThalis();
+  return thalis.find((t) => t.id === "normal") ?? thalis[0] ?? staticThalis[1]!;
 }
 
 export function useReviews(): Review[] {

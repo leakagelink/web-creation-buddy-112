@@ -1,6 +1,6 @@
 import { Tag } from "lucide-react";
 import type { Room } from "@/lib/site-data";
-import { normalThali } from "@/lib/site-data";
+import { useNormalThali } from "@/lib/content";
 
 export function priceBreakdown(room: Room, thaliQty: number, discountPercent = 0) {
   const tariff = room.price;

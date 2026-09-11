@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Stepper } from "@/components/site/Stepper";
 import { TrustBar } from "@/components/site/TrustBar";
 import { BookingSummary } from "@/components/site/BookingSummary";
-import { getRoom, normalThali } from "@/lib/site-data";
+import { useNormalThali, useRoom } from "@/lib/content";
 import { validateCoupon } from "@/lib/bookings.functions";
 import thaliImg from "@/assets/thali.jpg";
 
@@ -45,7 +45,8 @@ const inputCls =
 
 function BookingPage() {
   const { room: roomId } = Route.useSearch();
-  const room = getRoom(roomId);
+  const room = useRoom(roomId);
+  const normalThali = useNormalThali();
   const navigate = useNavigate();
 
   const [guestName, setGuestName] = useState("");

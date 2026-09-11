@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Stepper } from "@/components/site/Stepper";
 import { TrustBar } from "@/components/site/TrustBar";
 import { BookingSummary } from "@/components/site/BookingSummary";
-import { getRoom } from "@/lib/site-data";
+import { useRoom } from "@/lib/content";
 import { createBooking } from "@/lib/bookings.functions";
 import { DRAFT_KEY, type BookingDraft } from "@/routes/booking";
 
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/payment")({
 
 function PaymentPage() {
   const { room: roomId } = Route.useSearch();
-  const room = getRoom(roomId);
+  const room = useRoom(roomId);
   const navigate = useNavigate();
 
   const [draft, setDraft] = useState<BookingDraft | null>(null);
