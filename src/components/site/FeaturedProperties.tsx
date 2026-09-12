@@ -1,36 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, MapPin, Star } from "lucide-react";
-import { properties as staticProperties } from "@/lib/site-data";
-import { getPublicProperties, type PropertyRow } from "@/lib/properties.functions";
+import { propertyImage, usePropertyList } from "@/lib/properties-client";
 import { Reveal } from "@/components/site/Reveal";
 
-const fallbackImages: Record<string, string> = Object.fromEntries(
-  staticProperties.map((p) => [p.id, p.image]),
-);
-
-const fallbackRows: PropertyRow[] = staticProperties.map((p, i) => ({
-  id: p.id,
-  slug: p.id,
-  name: p.name,
-  location: p.location,
-  address: null,
-  rating: p.rating,
-  reviews: p.reviews,
-  from_price: p.fromPrice,
-  image_url: null,
-  coming_soon: Boolean(p.comingSoon),
-  visible: true,
-  sort_order: i,
-}));
-
 export function FeaturedProperties() {
-  const { data } = useQuery({
-    queryKey: ["public-properties"],
-    queryFn: () => getPublicProperties(),
-  });
-
-  const list = data && data.length > 0 ? data : fallbackRows;
+  const list = usePropertyList();
 
   return (
     <section className="mt-10 bg-navy py-10 text-navy-foreground sm:mt-14 sm:py-14">
@@ -53,10 +27,14 @@ export function FeaturedProperties() {
         <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {list.map((p, i) => (
             <Reveal key={p.id} delay={i * 80} className="h-full">
-              <article className="hover-lift group h-full overflow-hidden rounded-lg border border-gold/20 bg-navy-foreground/5">
+              <Link
+                to="/properties/$slug"
+                params={{ slug: p.slug }}
+                className="hover-lift group block h-full overflow-hidden rounded-lg border border-gold/20 bg-navy-foreground/5"
+              >
                 <div className="relative h-44 overflow-hidden">
                   <img
-                    src={p.image_url || fallbackImages[p.slug] || fallbackImages["varanasi"]}
+                    src={propertyImage(p)}
                     alt={`${p.name} property exterior`}
                     width={1024}
                     height={768}
@@ -92,8 +70,11 @@ export function FeaturedProperties() {
                       </span>
                     </span>
                   </div>
+                  <span className="mt-3 flex items-center gap-1 text-[11px] font-extrabold uppercase tracking-wide text-gold">
+                    View Property <ArrowRight className="h-3.5 w-3.5" />
+                  </span>
                 </div>
-              </article>
+              </Link>
             </Reveal>
           ))}
         </div>
