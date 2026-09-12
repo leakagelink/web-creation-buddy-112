@@ -3,7 +3,6 @@ import {
   BadgeCheck,
   BadgePercent,
   BedDouble,
-  CalendarDays,
   Clock,
   Home,
   MapPin,
@@ -85,7 +84,7 @@ function Index() {
 
   return (
     <>
-      <section className="relative bg-navy pb-20 text-navy-foreground sm:pb-24">
+      <section className="relative bg-navy pb-10 text-navy-foreground sm:pb-12 lg:pb-24">
         <div className="absolute inset-0 overflow-hidden">
         <img
           src={heroRoom}
@@ -121,7 +120,7 @@ function Index() {
 
         <form
           onSubmit={searchStay}
-          className="fade-up absolute inset-x-4 bottom-0 z-10 mx-auto grid max-w-7xl translate-y-1/2 gap-2 rounded-lg border border-border bg-card p-3 text-card-foreground shadow-[var(--shadow-card)] sm:p-4 lg:grid-cols-[1.45fr_1fr_1fr_1.15fr_auto] lg:items-end"
+          className="fade-up relative z-10 mx-4 mt-8 grid max-w-7xl gap-2 rounded-lg border border-border bg-card p-3 text-card-foreground shadow-[var(--shadow-card)] sm:p-4 lg:absolute lg:inset-x-4 lg:bottom-0 lg:mx-auto lg:mt-0 lg:translate-y-1/2 lg:grid-cols-[1.45fr_1fr_1fr_1.15fr_auto] lg:items-end"
           style={{ animationDelay: "120ms" }}
         >
           <SearchField label="Where are you going?" icon={<MapPin className="h-4 w-4" />}>
@@ -133,7 +132,7 @@ function Index() {
               className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
             />
           </SearchField>
-          <SearchField label="Check-in" icon={<CalendarDays className="h-4 w-4" />}>
+          <SearchField label="Check-in">
             <input
               type="date"
               min={today}
@@ -143,7 +142,7 @@ function Index() {
               className="min-w-0 flex-1 bg-transparent text-sm outline-none"
             />
           </SearchField>
-          <SearchField label="Check-out" icon={<CalendarDays className="h-4 w-4" />}>
+          <SearchField label="Check-out">
             <input
               type="date"
               min={checkIn || today}
@@ -181,7 +180,7 @@ function Index() {
         </form>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pt-36 sm:pt-28 lg:pt-20">
+      <section className="mx-auto max-w-7xl px-4 pt-8 lg:pt-20">
         <div className="card-surface px-4 py-10 sm:px-6">
           <h2 className="section-title text-center">Choose Your Room</h2>
           <p className="mt-1 text-center text-sm text-muted-foreground">Comfort for every budget</p>
