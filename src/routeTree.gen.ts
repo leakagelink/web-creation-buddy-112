@@ -25,6 +25,8 @@ import { Route as RoomsRouteImport } from './routes/rooms'
 import { Route as ThaliMenuRouteImport } from './routes/thali-menu'
 import { Route as VaranasiGuideRouteImport } from './routes/varanasi-guide'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as PropertiesIndexRouteImport } from './routes/properties.index'
+import { Route as PropertiesSlugRouteImport } from './routes/properties.$slug'
 import { Route as RoomsIndexRouteImport } from './routes/rooms.index'
 import { Route as RoomsRoomIdRouteImport } from './routes/rooms.$roomId'
 
@@ -107,6 +109,16 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const PropertiesIndexRoute = PropertiesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PropertiesRoute,
+} as any)
+const PropertiesSlugRoute = PropertiesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => PropertiesRoute,
+} as any)
 const RoomsIndexRoute = RoomsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -129,12 +141,14 @@ export interface FileRoutesByFullPath {
   '/offers': typeof OffersRoute
   '/partner': typeof PartnerRoute
   '/payment': typeof PaymentRoute
-  '/properties': typeof PropertiesRoute
+  '/properties': typeof PropertiesRouteWithChildren
   '/rooms': typeof RoomsRouteWithChildren
   '/thali-menu': typeof ThaliMenuRoute
   '/varanasi-guide': typeof VaranasiGuideRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/properties/$slug': typeof PropertiesSlugRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
+  '/properties/': typeof PropertiesIndexRoute
   '/rooms/': typeof RoomsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -148,11 +162,12 @@ export interface FileRoutesByTo {
   '/offers': typeof OffersRoute
   '/partner': typeof PartnerRoute
   '/payment': typeof PaymentRoute
-  '/properties': typeof PropertiesRoute
   '/thali-menu': typeof ThaliMenuRoute
   '/varanasi-guide': typeof VaranasiGuideRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/properties/$slug': typeof PropertiesSlugRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
+  '/properties': typeof PropertiesIndexRoute
   '/rooms': typeof RoomsIndexRoute
 }
 export interface FileRoutesById {
@@ -168,12 +183,14 @@ export interface FileRoutesById {
   '/offers': typeof OffersRoute
   '/partner': typeof PartnerRoute
   '/payment': typeof PaymentRoute
-  '/properties': typeof PropertiesRoute
+  '/properties': typeof PropertiesRouteWithChildren
   '/rooms': typeof RoomsRouteWithChildren
   '/thali-menu': typeof ThaliMenuRoute
   '/varanasi-guide': typeof VaranasiGuideRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/properties/$slug': typeof PropertiesSlugRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
+  '/properties/': typeof PropertiesIndexRoute
   '/rooms/': typeof RoomsIndexRoute
 }
 export interface FileRouteTypes {
@@ -194,7 +211,9 @@ export interface FileRouteTypes {
     | '/thali-menu'
     | '/varanasi-guide'
     | '/admin'
+    | '/properties/$slug'
     | '/rooms/$roomId'
+    | '/properties/'
     | '/rooms/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -208,11 +227,12 @@ export interface FileRouteTypes {
     | '/offers'
     | '/partner'
     | '/payment'
-    | '/properties'
     | '/thali-menu'
     | '/varanasi-guide'
     | '/admin'
+    | '/properties/$slug'
     | '/rooms/$roomId'
+    | '/properties'
     | '/rooms'
   id:
     | '__root__'
@@ -232,7 +252,9 @@ export interface FileRouteTypes {
     | '/thali-menu'
     | '/varanasi-guide'
     | '/_authenticated/admin'
+    | '/properties/$slug'
     | '/rooms/$roomId'
+    | '/properties/'
     | '/rooms/'
   fileRoutesById: FileRoutesById
 }
@@ -248,7 +270,7 @@ export interface RootRouteChildren {
   OffersRoute: typeof OffersRoute
   PartnerRoute: typeof PartnerRoute
   PaymentRoute: typeof PaymentRoute
-  PropertiesRoute: typeof PropertiesRoute
+  PropertiesRoute: typeof PropertiesRouteWithChildren
   RoomsRoute: typeof RoomsRouteWithChildren
   ThaliMenuRoute: typeof ThaliMenuRoute
   VaranasiGuideRoute: typeof VaranasiGuideRoute
@@ -368,6 +390,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/properties/': {
+      id: '/properties/'
+      path: '/'
+      fullPath: '/properties/'
+      preLoaderRoute: typeof PropertiesIndexRouteImport
+      parentRoute: typeof PropertiesRoute
+    }
+    '/properties/$slug': {
+      id: '/properties/$slug'
+      path: '/$slug'
+      fullPath: '/properties/$slug'
+      preLoaderRoute: typeof PropertiesSlugRouteImport
+      parentRoute: typeof PropertiesRoute
+    }
     '/rooms/': {
       id: '/rooms/'
       path: '/'
@@ -396,6 +432,20 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface PropertiesRouteChildren {
+  PropertiesSlugRoute: typeof PropertiesSlugRoute
+  PropertiesIndexRoute: typeof PropertiesIndexRoute
+}
+
+const PropertiesRouteChildren: PropertiesRouteChildren = {
+  PropertiesSlugRoute: PropertiesSlugRoute,
+  PropertiesIndexRoute: PropertiesIndexRoute,
+}
+
+const PropertiesRouteWithChildren = PropertiesRoute._addFileChildren(
+  PropertiesRouteChildren,
+)
+
 interface RoomsRouteChildren {
   RoomsRoomIdRoute: typeof RoomsRoomIdRoute
   RoomsIndexRoute: typeof RoomsIndexRoute
@@ -420,7 +470,7 @@ const rootRouteChildren: RootRouteChildren = {
   OffersRoute: OffersRoute,
   PartnerRoute: PartnerRoute,
   PaymentRoute: PaymentRoute,
-  PropertiesRoute: PropertiesRoute,
+  PropertiesRoute: PropertiesRouteWithChildren,
   RoomsRoute: RoomsRouteWithChildren,
   ThaliMenuRoute: ThaliMenuRoute,
   VaranasiGuideRoute: VaranasiGuideRoute,
