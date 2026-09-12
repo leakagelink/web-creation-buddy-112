@@ -271,8 +271,6 @@ function Index() {
 
       <FeaturedProperties />
 
-      <Gallery />
-
       <section className="mx-auto max-w-7xl px-4 py-10 sm:py-14">
         <div className="grid gap-8 sm:grid-cols-3 lg:grid-cols-6">
           {amenities.map((a) => (
