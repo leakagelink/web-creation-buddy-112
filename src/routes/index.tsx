@@ -272,6 +272,10 @@ function Index() {
       <FeaturedProperties />
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:py-14">
+        <div className="mb-8 text-center">
+          <h2 className="section-title">Amenities & Facilities</h2>
+          <p className="mt-1 text-sm text-muted-foreground">Everything you need for a comfortable stay</p>
+        </div>
         <div className="grid gap-8 sm:grid-cols-3 lg:grid-cols-6">
           {amenities.map((a) => (
             <div key={a.title} className="group text-center transition-transform duration-300 hover:-translate-y-1">
