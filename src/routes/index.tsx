@@ -1,17 +1,22 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   BadgeCheck,
   BadgePercent,
-  ChevronDown,
+  BedDouble,
+  CalendarDays,
   Clock,
   Home,
+  MapPin,
+  Search,
   ShieldCheck,
   Sparkles,
   Users,
   Wifi,
 } from "lucide-react";
+import { useState } from "react";
 import heroRoom from "@/assets/hero-room.jpg";
 import thaliImg from "@/assets/thali.jpg";
+import { Button } from "@/components/ui/button";
 import { useAmenities, useRooms, useThalis } from "@/lib/content";
 import type { Room } from "@/lib/site-data";
 import { TrustBar } from "@/components/site/TrustBar";
@@ -52,69 +57,131 @@ function Index() {
   const rooms = useRooms();
   const thalis = useThalis();
   const amenities = useAmenities();
+  const navigate = useNavigate();
+  const [destination, setDestination] = useState("Varanasi");
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [guests, setGuests] = useState(1);
+  const [roomCount, setRoomCount] = useState(1);
+  const [searchError, setSearchError] = useState("");
+
+  const today = new Date().toISOString().slice(0, 10);
+
+  function searchStay(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSearchError("");
+
+    if (checkIn && checkOut && checkOut <= checkIn) {
+      setSearchError("Check-out date must be after check-in.");
+      return;
+    }
+
+    sessionStorage.setItem(
+      "h499-stay-search",
+      JSON.stringify({ destination, checkIn, checkOut, guests, rooms: roomCount }),
+    );
+    navigate({ to: "/rooms" });
+  }
+
   return (
     <>
-      <section className="relative overflow-hidden bg-navy text-navy-foreground">
+      <section className="relative bg-navy pb-20 text-navy-foreground sm:pb-24">
+        <div className="absolute inset-0 overflow-hidden">
         <img
           src={heroRoom}
           alt="House499 hotel room with warm lighting"
           width={1600}
           height={1000}
-          className="absolute inset-0 h-full w-full object-cover opacity-45 lg:opacity-70 lg:[mask-image:linear-gradient(to_right,transparent,black_38%)]"
+            className="h-full w-full object-cover opacity-45 lg:opacity-70 lg:[mask-image:linear-gradient(to_right,transparent,black_38%)]"
         />
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-10 sm:py-14 sm:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
-          <div className="fade-up">
-            <h1 className="text-[2rem] uppercase leading-[1.05] sm:text-5xl">
-              Clean Room.
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-10 sm:pb-20 sm:pt-16 lg:pt-20">
+          <div className="fade-up max-w-xl">
+            <h1 className="text-[2rem] leading-[1.05] sm:text-5xl">
+              Comfort for
               <br />
-              Safe Stay.
-              <br />
-              <span className="text-gold">Best Price.</span>
+              <span className="text-gold">Every Budget</span>
             </h1>
             <p className="mt-5 max-w-md text-navy-foreground/80">
-              Comfortable rooms. Hygienic stay. Delicious food. All at the best price.
+              Premium stays across India at affordable prices. Clean rooms, safe environment and the best hospitality.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-7 grid grid-cols-2 gap-x-5 gap-y-4 sm:flex sm:flex-wrap">
               {heroBadges.map(({ Icon, title }) => (
                 <div
                   key={title}
-                  className="hover-lift w-[calc(50%-0.375rem)] rounded-md border border-gold/40 bg-navy/60 p-3 text-center sm:w-28"
+                  className="flex items-center gap-2 text-xs font-semibold"
                 >
-                  <Icon className="mx-auto h-6 w-6 text-gold" strokeWidth={1.6} />
-                  <div className="mt-2 text-[11px] font-semibold leading-tight">{title}</div>
+                  <Icon className="h-5 w-5 shrink-0 text-gold" strokeWidth={1.6} />
+                  <span>{title}</span>
                 </div>
               ))}
             </div>
           </div>
-
-          <div className="fade-up self-center rounded-lg border border-gold/25 bg-navy/85 p-5 backdrop-blur sm:p-6" style={{ animationDelay: "120ms" }}>
-            <h2 className="text-center text-xl uppercase">Book Your Stay</h2>
-            <div className="mt-5 space-y-4">
-              <Field label="Check-in">
-                <input type="date" className="w-full bg-transparent text-sm outline-none" />
-              </Field>
-              <Field label="Check-out">
-                <input type="date" className="w-full bg-transparent text-sm outline-none" />
-              </Field>
-              <Field label="Guests" icon={<ChevronDown className="h-4 w-4 text-muted-foreground" />}>
-                <select className="w-full appearance-none bg-transparent text-sm outline-none">
-                  <option>1 Guest</option>
-                  <option>2 Guests</option>
-                  <option>3 Guests</option>
-                </select>
-              </Field>
-              <Link
-                to="/rooms"
-                className="hover-lift block w-full rounded-md bg-gold py-3 text-center text-sm font-extrabold uppercase tracking-wide text-gold-foreground"
-              >
-                Search Rooms
-              </Link>
-            </div>
-          </div>
         </div>
+
+        <form
+          onSubmit={searchStay}
+          className="fade-up absolute inset-x-4 bottom-0 z-10 mx-auto grid max-w-7xl translate-y-1/2 gap-2 rounded-lg border border-border bg-card p-3 text-card-foreground shadow-[var(--shadow-card)] sm:p-4 lg:grid-cols-[1.45fr_1fr_1fr_1.15fr_auto] lg:items-end"
+          style={{ animationDelay: "120ms" }}
+        >
+          <SearchField label="Where are you going?" icon={<MapPin className="h-4 w-4" />}>
+            <input
+              value={destination}
+              onChange={(event) => setDestination(event.target.value)}
+              placeholder="City, area or property"
+              aria-label="Destination"
+              className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+            />
+          </SearchField>
+          <SearchField label="Check-in" icon={<CalendarDays className="h-4 w-4" />}>
+            <input
+              type="date"
+              min={today}
+              value={checkIn}
+              onChange={(event) => setCheckIn(event.target.value)}
+              aria-label="Check-in date"
+              className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+            />
+          </SearchField>
+          <SearchField label="Check-out" icon={<CalendarDays className="h-4 w-4" />}>
+            <input
+              type="date"
+              min={checkIn || today}
+              value={checkOut}
+              onChange={(event) => setCheckOut(event.target.value)}
+              aria-label="Check-out date"
+              className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+            />
+          </SearchField>
+          <SearchField label="Guests & Rooms" icon={<BedDouble className="h-4 w-4" />}>
+            <div className="flex min-w-0 flex-1 items-center gap-2">
+              <select
+                value={guests}
+                onChange={(event) => setGuests(Number(event.target.value))}
+                aria-label="Guests"
+                className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+              >
+                {[1, 2, 3, 4].map((count) => <option key={count} value={count}>{count} Guest{count > 1 ? "s" : ""}</option>)}
+              </select>
+              <span className="text-muted-foreground">·</span>
+              <select
+                value={roomCount}
+                onChange={(event) => setRoomCount(Number(event.target.value))}
+                aria-label="Rooms"
+                className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+              >
+                {[1, 2, 3].map((count) => <option key={count} value={count}>{count} Room{count > 1 ? "s" : ""}</option>)}
+              </select>
+            </div>
+          </SearchField>
+          <Button type="submit" size="lg" className="h-12 bg-navy px-6 font-extrabold uppercase text-navy-foreground hover:bg-navy-soft">
+            <Search className="h-4 w-4" /> Search Stay
+          </Button>
+          {searchError && <p role="alert" className="text-xs font-semibold text-destructive lg:col-span-5">{searchError}</p>}
+        </form>
       </section>
 
-      <section className="mx-auto -mt-8 max-w-7xl px-4">
+      <section className="mx-auto max-w-7xl px-4 pt-36 sm:pt-28 lg:pt-20">
         <div className="card-surface px-4 py-10 sm:px-6">
           <h2 className="section-title text-center">Choose Your Room</h2>
           <p className="mt-1 text-center text-sm text-muted-foreground">Comfort for every budget</p>
@@ -255,7 +322,7 @@ function Index() {
   );
 }
 
-function Field({
+function SearchField({
   label,
   icon,
   children,
@@ -266,12 +333,10 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="text-xs font-semibold uppercase tracking-wide text-navy-foreground/70">
-        {label}
-      </span>
-      <div className="mt-1 flex items-center gap-2 rounded-md bg-card px-3 py-2.5 text-card-foreground">
+      <span className="text-xs font-semibold text-muted-foreground">{label}</span>
+      <div className="mt-1 flex h-12 items-center gap-2 rounded-md border border-input bg-background px-3 text-foreground focus-within:border-gold focus-within:ring-1 focus-within:ring-gold">
         {children}
-        {icon}
+        <span className="shrink-0 text-muted-foreground">{icon}</span>
       </div>
     </label>
   );
