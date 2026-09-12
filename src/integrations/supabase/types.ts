@@ -191,6 +191,51 @@ export type Database = {
         }
         Relationships: []
       }
+      partner_leads: {
+        Row: {
+          address: string | null
+          city: string
+          created_at: string
+          email: string | null
+          id: string
+          message: string | null
+          owner_name: string
+          phone: string
+          property_name: string
+          property_type: string
+          rooms_count: number
+          status: string
+        }
+        Insert: {
+          address?: string | null
+          city: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string | null
+          owner_name: string
+          phone: string
+          property_name: string
+          property_type?: string
+          rooms_count?: number
+          status?: string
+        }
+        Update: {
+          address?: string | null
+          city?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string | null
+          owner_name?: string
+          phone?: string
+          property_name?: string
+          property_type?: string
+          rooms_count?: number
+          status?: string
+        }
+        Relationships: []
+      }
       properties: {
         Row: {
           address: string | null
