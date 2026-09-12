@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import heroRoom from "@/assets/hero-room.jpg";
 import { useSettings } from "@/lib/content";
+import { PartnerDialog } from "@/components/site/PartnerDialog";
 
 export const Route = createFileRoute("/partner")({
   head: () => ({
@@ -89,12 +90,14 @@ function PartnerPage() {
               ))}
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href={`tel:${contact.phone}`}
-                className="rounded-md bg-gold px-6 py-3 text-xs font-extrabold uppercase text-gold-foreground"
-              >
-                Become a Partner
-              </a>
+              <PartnerDialog>
+                <button
+                  type="button"
+                  className="rounded-md bg-gold px-6 py-3 text-xs font-extrabold uppercase text-gold-foreground"
+                >
+                  Become a Partner
+                </button>
+              </PartnerDialog>
               <Link
                 to="/about"
                 className="rounded-md border border-navy-foreground/40 px-6 py-3 text-xs font-extrabold uppercase"
@@ -201,12 +204,14 @@ function PartnerPage() {
             <p className="mt-2 text-sm text-navy-foreground/75">
               Join our partner network today and take your hotel business to the next level.
             </p>
-            <a
-              href={`tel:${contact.phone}`}
-              className="mt-5 inline-block rounded-md bg-gold px-6 py-3 text-xs font-extrabold uppercase text-gold-foreground"
-            >
-              Become a Partner
-            </a>
+            <PartnerDialog>
+              <button
+                type="button"
+                className="mt-5 inline-block rounded-md bg-gold px-6 py-3 text-xs font-extrabold uppercase text-gold-foreground"
+              >
+                Become a Partner
+              </button>
+            </PartnerDialog>
             <div className="mt-5 space-y-2 text-sm">
               <div className="flex items-center justify-center gap-2">
                 <Phone className="h-4 w-4 text-gold" /> {contact.phone}

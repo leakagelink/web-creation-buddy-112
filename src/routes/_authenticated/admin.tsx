@@ -8,6 +8,7 @@ import { Logo } from "@/components/site/Logo";
 import { AdminProperties } from "@/components/site/AdminProperties";
 import { AdminCollection } from "@/components/site/AdminCollection";
 import { AdminSettings } from "@/components/site/AdminSettings";
+import { AdminPartnerLeads } from "@/components/site/AdminPartnerLeads";
 import { collections } from "@/lib/admin-schema";
 import { rooms } from "@/lib/site-data";
 
@@ -73,6 +74,7 @@ function AdminPage() {
   const tabs = [
     { key: "bookings", label: "Bookings" },
     { key: "properties", label: "Properties" },
+    { key: "partner-leads", label: "Partner Requests" },
     ...collections.map((c) => ({ key: c.table, label: c.label })),
     { key: "settings", label: "Settings" },
   ];
@@ -130,6 +132,13 @@ function AdminPage() {
         <>
           <h1 className="section-title">Properties</h1>
           <AdminProperties />
+        </>
+      )}
+
+      {tab === "partner-leads" && (
+        <>
+          <h1 className="section-title">Partner Requests</h1>
+          <AdminPartnerLeads />
         </>
       )}
 
