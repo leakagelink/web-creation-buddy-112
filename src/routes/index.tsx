@@ -271,6 +271,58 @@ function Index() {
 
       <FeaturedProperties />
 
+      {/* Thali banner — click to open the full thali menu */}
+      <section className="mx-auto max-w-7xl px-4 pb-10 sm:pb-14">
+        <Link
+          to="/thali-menu"
+          className="hover-lift group flex flex-col items-center gap-6 overflow-hidden rounded-xl border border-border bg-gold-soft/20 p-5 sm:p-6 lg:flex-row lg:gap-8"
+        >
+          <div className="flex w-full items-center gap-4 sm:gap-6 lg:w-auto">
+            <img
+              src={thaliImg}
+              alt="House499 thali with roti, rice, dal and sabzi"
+              width={900}
+              height={700}
+              loading="lazy"
+              className="h-28 w-44 shrink-0 rounded-lg object-cover sm:h-36 sm:w-64"
+            />
+            {thalis[0] && (
+              <div className="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-full bg-navy text-navy-foreground sm:h-24 sm:w-24">
+                <span className="font-display text-xl font-extrabold text-gold sm:text-2xl">
+                  ₹{thalis[0].price}
+                </span>
+                <span className="text-[9px] font-bold uppercase tracking-wide sm:text-[10px]">
+                  {thalis[0].name}
+                </span>
+              </div>
+            )}
+          </div>
+          <div className="w-full flex-1 text-center lg:text-left">
+            <p className="text-xs font-extrabold uppercase tracking-[0.25em] text-gold">
+              House499 Thali
+            </p>
+            <h2 className="mt-1 font-display text-2xl font-extrabold uppercase text-navy sm:text-3xl">
+              Tasty. Fresh. Pocket Friendly.
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Delicious homely meals delivered to your room.
+            </p>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 lg:justify-start">
+              {["Hygienic", "Freshly Prepared", "On Time Delivery", "Pocket Friendly"].map((t) => (
+                <span key={t} className="flex items-center gap-1.5 text-xs font-bold text-navy">
+                  <Sparkles className="h-3.5 w-3.5 text-gold" />
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+          <span className="shrink-0 rounded-md bg-navy px-6 py-3 text-sm font-extrabold uppercase text-gold transition-colors group-hover:bg-navy-soft">
+            Order Thali Now
+          </span>
+        </Link>
+      </section>
+
+
       <section className="mx-auto max-w-7xl px-4 py-10 sm:py-14">
         <div className="mb-8 text-center">
           <h2 className="section-title">
