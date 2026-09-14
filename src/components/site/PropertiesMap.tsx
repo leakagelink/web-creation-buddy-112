@@ -13,10 +13,53 @@ function formatPrice(n: number) {
   return `₹${n}`;
 }
 
+class PriceMarker extends google.maps.OverlayView {
+  private div: HTMLDivElement | null = null;
+  private position: google.maps.LatLng;
+  private price: string;
+  private onClick: () => void;
+
+  constructor(position: google.maps.LatLngLiteral, price: number, onClick: () => void) {
+    super();
+    this.position = new google.maps.LatLng(position);
+    this.price = formatPrice(price);
+    this.onClick = onClick;
+  }
+
+  onAdd() {
+    this.div = document.createElement("div");
+    this.div.className =
+      "absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer whitespace-nowrap rounded-full bg-navy px-2.5 py-1 text-xs font-extrabold text-gold shadow-[0_2px_6px_rgba(0,0,0,0.25)] transition-transform hover:scale-110";
+    this.div.textContent = this.price;
+    this.div.addEventListener("click", this.onClick);
+    const pane = this.getPanes()?.overlayMouseTarget;
+    if (pane) pane.appendChild(this.div);
+  }
+
+  draw() {
+    if (!this.div) return;
+    const projection = this.getProjection();
+    if (!projection) return;
+    const point = projection.fromLatLngToDivPixel(this.position);
+    if (point) {
+      this.div.style.left = `${point.x}px`;
+      this.div.style.top = `${point.y}px`;
+    }
+  }
+
+  onRemove() {
+    if (this.div) {
+      this.div.removeEventListener("click", this.onClick);
+      this.div.remove();
+      this.div = null;
+    }
+  }
+}
+
 export function PropertiesMap({ properties }: { properties: PropertyRow[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
-  const markersRef = useRef<google.maps.Marker[]>([]);
+  const markersRef = useRef<PriceMarker[]>([]);
   const navigate = useNavigate();
   const [ready, setReady] = useState(false);
 
@@ -64,7 +107,6 @@ export function PropertiesMap({ properties }: { properties: PropertyRow[] }) {
       });
     }
 
-    // clear old markers
     markersRef.current.forEach((m) => m.setMap(null));
     markersRef.current = [];
 
@@ -72,28 +114,10 @@ export function PropertiesMap({ properties }: { properties: PropertyRow[] }) {
 
     items.forEach((p) => {
       const position = { lat: p.latitude!, lng: p.longitude! };
-      const marker = new google.maps.Marker({
-        position,
-        map: mapRef.current,
-        icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          scale: 0,
-          fillOpacity: 0,
-          strokeOpacity: 0,
-        },
-        label: {
-          text: formatPrice(p.from_price),
-          color: "#0f172a",
-          fontSize: "12px",
-          fontWeight: "700",
-        },
-        title: p.name,
-      });
-
-      marker.addListener("click", () => {
+      const marker = new PriceMarker(position, p.from_price, () => {
         navigate({ to: "/properties/$slug", params: { slug: p.slug } });
       });
-
+      marker.setMap(mapRef.current);
       markersRef.current.push(marker);
       bounds.extend(position);
     });
