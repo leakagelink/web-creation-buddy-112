@@ -366,8 +366,6 @@ function Index() {
 
         <Reviews />
 
-        <Faq />
-
         <LocationMap />
 
         <div className="mt-12">
