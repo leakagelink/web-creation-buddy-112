@@ -99,6 +99,8 @@ function BookingPage() {
     setError("");
     if (guestName.trim().length < 2) return setError("Please enter your full name.");
     if (!/^[6-9]\d{9}$/.test(guestPhone.trim())) return setError("Enter a valid 10-digit mobile number.");
+    if (whatsappNumber.trim() && !/^[6-9]\d{9}$/.test(whatsappNumber.trim()))
+      return setError("Enter a valid 10-digit WhatsApp number (or leave it blank).");
     if (!/^\S+@\S+\.\S+$/.test(guestEmail.trim())) return setError("Enter a valid email address.");
     if (!checkIn || !checkOut) return setError("Please select check-in and check-out dates.");
     if (new Date(checkOut) <= new Date(checkIn)) return setError("Check-out date must be after check-in date.");
