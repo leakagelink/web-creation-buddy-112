@@ -17,6 +17,7 @@ import heroRoom from "@/assets/hero-room.jpg";
 import thaliImg from "@/assets/thali.jpg";
 import { Button } from "@/components/ui/button";
 import { useAmenities, useRooms, useThalis } from "@/lib/content";
+import { usePropertyList } from "@/lib/properties-client";
 import type { Room } from "@/lib/site-data";
 import { TrustBar } from "@/components/site/TrustBar";
 import { Reveal } from "@/components/site/Reveal";
@@ -44,6 +45,8 @@ export const Route = createFileRoute("/")({
   }),
   component: Index,
 });
+
+const extraPopularCities = ["New Delhi", "Jaipur", "Ayodhya", "Rishikesh", "Goa"];
 
 const heroBadges = [
   { Icon: Home, title: "Clean & Hygienic" },
