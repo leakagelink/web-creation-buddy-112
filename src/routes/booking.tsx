@@ -27,6 +27,9 @@ export type BookingDraft = {
   roomId: string;
   guestName: string;
   guestPhone: string;
+  whatsappNumber: string;
+  idProofType: string;
+  idNumber: string;
   guestEmail: string;
   guests: number;
   checkIn: string;
