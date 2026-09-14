@@ -23,7 +23,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { Gallery } from "@/components/site/Gallery";
 import { FeaturedProperties } from "@/components/site/FeaturedProperties";
 import { Reviews } from "@/components/site/Reviews";
-import { Faq } from "@/components/site/Faq";
+
 import { LocationMap } from "@/components/site/LocationMap";
 
 export const Route = createFileRoute("/")({
