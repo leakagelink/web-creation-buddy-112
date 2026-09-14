@@ -167,6 +167,36 @@ function BookingPage() {
                 />
               </div>
             </Field>
+            <Field label="WhatsApp Number (Optional)">
+              <div className="flex gap-2">
+                <select className={`${inputCls} w-20`}>
+                  <option>+91</option>
+                </select>
+                <input
+                  value={whatsappNumber}
+                  onChange={(e) => setWhatsappNumber(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                  placeholder="10-digit WhatsApp"
+                  inputMode="numeric"
+                  className={inputCls}
+                />
+              </div>
+            </Field>
+            <Field label="Identity Proof Type *">
+              <select className={inputCls} value={idProofType} onChange={(e) => setIdProofType(e.target.value)}>
+                <option>Aadhaar Card</option>
+                <option>Driving License</option>
+                <option>Voter ID</option>
+                <option>Passport</option>
+              </select>
+            </Field>
+            <Field label="ID Number (Optional / Present at Desk)">
+              <input
+                value={idNumber}
+                onChange={(e) => setIdNumber(e.target.value.slice(0, 30))}
+                placeholder="XXXX-XXXX-0000"
+                className={inputCls}
+              />
+            </Field>
             <div className="sm:col-span-2">
               <Field label="Email Address *">
                 <input
