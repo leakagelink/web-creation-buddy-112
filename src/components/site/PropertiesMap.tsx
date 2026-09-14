@@ -5,6 +5,7 @@ import type { PropertyRow } from "@/lib/properties.functions";
 declare global {
   interface Window {
     initPropertiesMap?: () => void;
+    google?: typeof google;
   }
 }
 
@@ -13,53 +14,17 @@ function formatPrice(n: number) {
   return `₹${n}`;
 }
 
-class PriceMarker extends google.maps.OverlayView {
-  private div: HTMLDivElement | null = null;
-  private position: google.maps.LatLng;
-  private price: string;
-  private onClick: () => void;
-
-  constructor(position: google.maps.LatLngLiteral, price: number, onClick: () => void) {
-    super();
-    this.position = new google.maps.LatLng(position);
-    this.price = formatPrice(price);
-    this.onClick = onClick;
-  }
-
-  onAdd() {
-    this.div = document.createElement("div");
-    this.div.className =
-      "absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer whitespace-nowrap rounded-full bg-navy px-2.5 py-1 text-xs font-extrabold text-gold shadow-[0_2px_6px_rgba(0,0,0,0.25)] transition-transform hover:scale-110";
-    this.div.textContent = this.price;
-    this.div.addEventListener("click", this.onClick);
-    const pane = this.getPanes()?.overlayMouseTarget;
-    if (pane) pane.appendChild(this.div);
-  }
-
-  draw() {
-    if (!this.div) return;
-    const projection = this.getProjection();
-    if (!projection) return;
-    const point = projection.fromLatLngToDivPixel(this.position);
-    if (point) {
-      this.div.style.left = `${point.x}px`;
-      this.div.style.top = `${point.y}px`;
-    }
-  }
-
-  onRemove() {
-    if (this.div) {
-      this.div.removeEventListener("click", this.onClick);
-      this.div.remove();
-      this.div = null;
-    }
-  }
+function makePriceIcon(price: number) {
+  const text = formatPrice(price);
+  const width = Math.max(48, text.length * 9 + 18);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="28" viewBox="0 0 ${width} 28"><rect x="1" y="1" width="${width - 2}" height="26" rx="13" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5"/><text x="50%" y="50%" fill="#fbbf24" font-size="12" font-weight="700" text-anchor="middle" dominant-baseline="middle">${text}</text></svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
 
 export function PropertiesMap({ properties }: { properties: PropertyRow[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
-  const markersRef = useRef<PriceMarker[]>([]);
+  const markersRef = useRef<google.maps.Marker[]>([]);
   const navigate = useNavigate();
   const [ready, setReady] = useState(false);
 
@@ -72,8 +37,8 @@ export function PropertiesMap({ properties }: { properties: PropertyRow[] }) {
       return;
     }
 
-    const key = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY;
-    const channel = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID;
+    const key = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY"];
+    const channel = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID"];
     if (!key) {
       console.error("Google Maps browser key is missing");
       return;
@@ -114,10 +79,20 @@ export function PropertiesMap({ properties }: { properties: PropertyRow[] }) {
 
     items.forEach((p) => {
       const position = { lat: p.latitude!, lng: p.longitude! };
-      const marker = new PriceMarker(position, p.from_price, () => {
+      const marker = new google.maps.Marker({
+        position,
+        map: mapRef.current,
+        icon: {
+          url: makePriceIcon(p.from_price),
+          anchor: new google.maps.Point(Math.round(Math.max(48, formatPrice(p.from_price).length * 9 + 18) / 2), 14),
+        },
+        title: p.name,
+      });
+
+      marker.addListener("click", () => {
         navigate({ to: "/properties/$slug", params: { slug: p.slug } });
       });
-      marker.setMap(mapRef.current);
+
       markersRef.current.push(marker);
       bounds.extend(position);
     });
