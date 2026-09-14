@@ -25,6 +25,8 @@ type FormState = {
   coming_soon: boolean;
   visible: boolean;
   sort_order: string;
+  latitude: string;
+  longitude: string;
 };
 
 const emptyForm: FormState = {
@@ -39,6 +41,8 @@ const emptyForm: FormState = {
   coming_soon: false,
   visible: true,
   sort_order: "0",
+  latitude: "",
+  longitude: "",
 };
 
 function toForm(p: PropertyRow): FormState {
@@ -55,6 +59,8 @@ function toForm(p: PropertyRow): FormState {
     coming_soon: p.coming_soon,
     visible: p.visible,
     sort_order: String(p.sort_order),
+    latitude: p.latitude != null ? String(p.latitude) : "",
+    longitude: p.longitude != null ? String(p.longitude) : "",
   };
 }
 
@@ -75,6 +81,8 @@ export function AdminProperties() {
 
   const saveMutation = useMutation({
     mutationFn: async (f: FormState) => {
+      const lat = f.latitude.trim() ? Number(f.latitude.trim()) : ("" as const);
+      const lng = f.longitude.trim() ? Number(f.longitude.trim()) : ("" as const);
       const payload = {
         slug: f.slug.trim().toLowerCase(),
         name: f.name.trim(),
@@ -87,6 +95,8 @@ export function AdminProperties() {
         coming_soon: f.coming_soon,
         visible: f.visible,
         sort_order: parseInt(f.sort_order || "0", 10),
+        latitude: lat,
+        longitude: lng,
       };
       return f.id
         ? updateProperty({ data: { ...payload, id: f.id } })
@@ -121,6 +131,8 @@ export function AdminProperties() {
           coming_soon: p.coming_soon,
           visible: !p.visible,
           sort_order: p.sort_order,
+          latitude: p.latitude ?? "",
+          longitude: p.longitude ?? "",
         },
       }),
     onSuccess: refresh,
@@ -231,6 +243,26 @@ export function AdminProperties() {
                 value={form.sort_order}
                 onChange={(e) => setForm({ ...form, sort_order: e.target.value })}
                 inputMode="numeric"
+              />
+            </label>
+            <label className="text-xs font-bold uppercase text-muted-foreground">
+              Latitude (optional)
+              <input
+                className={inputCls}
+                value={form.latitude}
+                onChange={(e) => setForm({ ...form, latitude: e.target.value })}
+                placeholder="25.3811"
+                inputMode="decimal"
+              />
+            </label>
+            <label className="text-xs font-bold uppercase text-muted-foreground">
+              Longitude (optional)
+              <input
+                className={inputCls}
+                value={form.longitude}
+                onChange={(e) => setForm({ ...form, longitude: e.target.value })}
+                placeholder="83.0214"
+                inputMode="decimal"
               />
             </label>
           </div>

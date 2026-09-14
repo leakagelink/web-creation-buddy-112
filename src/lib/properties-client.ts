@@ -6,6 +6,13 @@ export const propertyFallbackImages: Record<string, string> = Object.fromEntries
   staticProperties.map((p) => [p.id, p.image]),
 );
 
+const fallbackCoords: Record<string, { latitude: number; longitude: number }> = {
+  varanasi: { latitude: 25.3811, longitude: 83.0214 },
+  prayagraj: { latitude: 25.4484, longitude: 81.858 },
+  lucknow: { latitude: 26.8467, longitude: 80.9462 },
+  gaya: { latitude: 24.7955, longitude: 84.9994 },
+};
+
 export const propertyFallbackRows: PropertyRow[] = staticProperties.map((p, i) => ({
   id: p.id,
   slug: p.id,
@@ -19,6 +26,8 @@ export const propertyFallbackRows: PropertyRow[] = staticProperties.map((p, i) =
   coming_soon: Boolean(p.comingSoon),
   visible: true,
   sort_order: i,
+  latitude: fallbackCoords[p.id]?.latitude ?? null,
+  longitude: fallbackCoords[p.id]?.longitude ?? null,
 }));
 
 export function propertyImage(p: Pick<PropertyRow, "image_url" | "slug">): string {

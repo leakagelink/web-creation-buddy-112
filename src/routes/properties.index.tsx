@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, MapPin, Star } from "lucide-react";
-import { LocationMap } from "@/components/site/LocationMap";
+import { PropertiesMap } from "@/components/site/PropertiesMap";
 import { TrustBar } from "@/components/site/TrustBar";
 import { propertyImage, usePropertyList } from "@/lib/properties-client";
 
@@ -84,7 +84,13 @@ function PropertiesPage() {
       </div>
 
       <div className="mt-10">
-        <LocationMap />
+        <h2 className="section-title">Explore on Map</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Click any price marker to view the property details.
+        </p>
+        <div className="mt-5">
+          <PropertiesMap properties={list} />
+        </div>
       </div>
       <div className="mt-10">
         <TrustBar />

@@ -16,6 +16,8 @@ export type PropertyRow = {
   coming_soon: boolean;
   visible: boolean;
   sort_order: number;
+  latitude: number | null;
+  longitude: number | null;
 };
 
 function publishableClient() {
@@ -39,7 +41,7 @@ export const getPublicProperties = createServerFn({ method: "GET" }).handler(asy
   const supabase = publishableClient();
   const { data, error } = await supabase
     .from("properties")
-    .select("id,slug,name,location,address,rating,reviews,from_price,image_url,coming_soon,visible,sort_order")
+    .select("id,slug,name,location,address,rating,reviews,from_price,image_url,coming_soon,visible,sort_order,latitude,longitude")
     .eq("visible", true)
     .order("sort_order", { ascending: true });
   if (error) throw new Error(error.message);
@@ -77,6 +79,8 @@ const propertyInput = z.object({
   coming_soon: z.boolean(),
   visible: z.boolean(),
   sort_order: z.number().int().min(0).max(999),
+  latitude: z.number().min(-90).max(90).optional().or(z.literal("")),
+  longitude: z.number().min(-180).max(180).optional().or(z.literal("")),
 });
 
 export const getAdminProperties = createServerFn({ method: "GET" })
@@ -100,6 +104,8 @@ export const createProperty = createServerFn({ method: "POST" })
       ...data,
       address: data.address || null,
       image_url: data.image_url || null,
+      latitude: data.latitude === "" ? null : data.latitude ?? null,
+      longitude: data.longitude === "" ? null : data.longitude ?? null,
     });
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -115,7 +121,13 @@ export const updateProperty = createServerFn({ method: "POST" })
     const { id, ...fields } = data;
     const { error } = await context.supabase
       .from("properties")
-      .update({ ...fields, address: fields.address || null, image_url: fields.image_url || null })
+      .update({
+        ...fields,
+        address: fields.address || null,
+        image_url: fields.image_url || null,
+        latitude: fields.latitude === "" ? null : fields.latitude ?? null,
+        longitude: fields.longitude === "" ? null : fields.longitude ?? null,
+      })
       .eq("id", id);
     if (error) throw new Error(error.message);
     return { ok: true };
