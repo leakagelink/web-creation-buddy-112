@@ -60,9 +60,10 @@ export function PropertiesMap({ properties }: { properties: PropertyRow[] }) {
   useEffect(() => {
     if (!ready || !containerRef.current || !window.google?.maps || items.length === 0) return;
 
+    const first = items[0]!;
     if (!mapRef.current) {
       mapRef.current = new google.maps.Map(containerRef.current, {
-        center: { lat: items[0].latitude!, lng: items[0].longitude! },
+        center: { lat: first.latitude!, lng: first.longitude! },
         zoom: 5,
         clickableIcons: false,
         mapTypeControl: false,
