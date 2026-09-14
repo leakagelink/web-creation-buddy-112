@@ -171,7 +171,7 @@ function Index() {
                 aria-label="Guests"
                 className="min-w-0 flex-1 bg-transparent text-sm outline-none"
               >
-                {[1, 2, 3, 4].map((count) => <option key={count} value={count}>{count} Guest{count > 1 ? "s" : ""}</option>)}
+                {Array.from({ length: 20 }, (_, i) => i + 1).map((count) => <option key={count} value={count}>{count} Guest{count > 1 ? "s" : ""}</option>)}
               </select>
               <span className="text-muted-foreground">·</span>
               <select
@@ -180,7 +180,7 @@ function Index() {
                 aria-label="Rooms"
                 className="min-w-0 flex-1 bg-transparent text-sm outline-none"
               >
-                {[1, 2, 3].map((count) => <option key={count} value={count}>{count} Room{count > 1 ? "s" : ""}</option>)}
+                {Array.from({ length: 10 }, (_, i) => i + 1).map((count) => <option key={count} value={count}>{count} Room{count > 1 ? "s" : ""}</option>)}
               </select>
             </div>
           </SearchField>
