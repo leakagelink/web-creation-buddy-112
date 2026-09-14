@@ -54,6 +54,9 @@ function BookingPage() {
 
   const [guestName, setGuestName] = useState("");
   const [guestPhone, setGuestPhone] = useState("");
+  const [whatsappNumber, setWhatsappNumber] = useState("");
+  const [idProofType, setIdProofType] = useState("Aadhaar Card");
+  const [idNumber, setIdNumber] = useState("");
   const [guestEmail, setGuestEmail] = useState("");
   const [guests, setGuests] = useState(1);
   const [checkIn, setCheckIn] = useState("");
@@ -96,6 +99,8 @@ function BookingPage() {
     setError("");
     if (guestName.trim().length < 2) return setError("Please enter your full name.");
     if (!/^[6-9]\d{9}$/.test(guestPhone.trim())) return setError("Enter a valid 10-digit mobile number.");
+    if (whatsappNumber.trim() && !/^[6-9]\d{9}$/.test(whatsappNumber.trim()))
+      return setError("Enter a valid 10-digit WhatsApp number (or leave it blank).");
     if (!/^\S+@\S+\.\S+$/.test(guestEmail.trim())) return setError("Enter a valid email address.");
     if (!checkIn || !checkOut) return setError("Please select check-in and check-out dates.");
     if (new Date(checkOut) <= new Date(checkIn)) return setError("Check-out date must be after check-in date.");
@@ -104,6 +109,9 @@ function BookingPage() {
       roomId: room.id,
       guestName: guestName.trim(),
       guestPhone: guestPhone.trim(),
+      whatsappNumber: whatsappNumber.trim(),
+      idProofType,
+      idNumber: idNumber.trim(),
       guestEmail: guestEmail.trim(),
       guests,
       checkIn,
@@ -158,6 +166,36 @@ function BookingPage() {
                   autoComplete="tel"
                 />
               </div>
+            </Field>
+            <Field label="WhatsApp Number (Optional)">
+              <div className="flex gap-2">
+                <select className={`${inputCls} w-20`}>
+                  <option>+91</option>
+                </select>
+                <input
+                  value={whatsappNumber}
+                  onChange={(e) => setWhatsappNumber(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                  placeholder="10-digit WhatsApp"
+                  inputMode="numeric"
+                  className={inputCls}
+                />
+              </div>
+            </Field>
+            <Field label="Identity Proof Type *">
+              <select className={inputCls} value={idProofType} onChange={(e) => setIdProofType(e.target.value)}>
+                <option>Aadhaar Card</option>
+                <option>Driving License</option>
+                <option>Voter ID</option>
+                <option>Passport</option>
+              </select>
+            </Field>
+            <Field label="ID Number (Optional / Present at Desk)">
+              <input
+                value={idNumber}
+                onChange={(e) => setIdNumber(e.target.value.slice(0, 30))}
+                placeholder="XXXX-XXXX-0000"
+                className={inputCls}
+              />
             </Field>
             <div className="sm:col-span-2">
               <Field label="Email Address *">
