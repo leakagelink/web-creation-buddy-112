@@ -90,12 +90,15 @@ export type Database = {
           guest_phone: string
           guests: number
           id: string
+          id_number: string | null
+          id_proof_type: string | null
           nights: number
           room_id: string
           special_requests: string | null
           status: string
           thali_qty: number
           total_amount: number
+          whatsapp_number: string | null
         }
         Insert: {
           booking_code: string
@@ -109,12 +112,15 @@ export type Database = {
           guest_phone: string
           guests?: number
           id?: string
+          id_number?: string | null
+          id_proof_type?: string | null
           nights?: number
           room_id: string
           special_requests?: string | null
           status?: string
           thali_qty?: number
           total_amount: number
+          whatsapp_number?: string | null
         }
         Update: {
           booking_code?: string
@@ -128,12 +134,15 @@ export type Database = {
           guest_phone?: string
           guests?: number
           id?: string
+          id_number?: string | null
+          id_proof_type?: string | null
           nights?: number
           room_id?: string
           special_requests?: string | null
           status?: string
           thali_qty?: number
           total_amount?: number
+          whatsapp_number?: string | null
         }
         Relationships: []
       }
