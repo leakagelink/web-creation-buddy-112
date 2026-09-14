@@ -54,6 +54,9 @@ function BookingPage() {
 
   const [guestName, setGuestName] = useState("");
   const [guestPhone, setGuestPhone] = useState("");
+  const [whatsappNumber, setWhatsappNumber] = useState("");
+  const [idProofType, setIdProofType] = useState("Aadhaar Card");
+  const [idNumber, setIdNumber] = useState("");
   const [guestEmail, setGuestEmail] = useState("");
   const [guests, setGuests] = useState(1);
   const [checkIn, setCheckIn] = useState("");
