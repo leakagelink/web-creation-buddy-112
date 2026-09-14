@@ -245,6 +245,26 @@ export function AdminProperties() {
                 inputMode="numeric"
               />
             </label>
+            <label className="text-xs font-bold uppercase text-muted-foreground">
+              Latitude (optional)
+              <input
+                className={inputCls}
+                value={form.latitude}
+                onChange={(e) => setForm({ ...form, latitude: e.target.value })}
+                placeholder="25.3811"
+                inputMode="decimal"
+              />
+            </label>
+            <label className="text-xs font-bold uppercase text-muted-foreground">
+              Longitude (optional)
+              <input
+                className={inputCls}
+                value={form.longitude}
+                onChange={(e) => setForm({ ...form, longitude: e.target.value })}
+                placeholder="83.0214"
+                inputMode="decimal"
+              />
+            </label>
           </div>
 
           <div className="mt-3 flex flex-wrap gap-5">
