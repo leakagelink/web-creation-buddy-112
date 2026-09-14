@@ -46,7 +46,14 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const extraPopularCities = ["New Delhi", "Jaipur", "Ayodhya", "Rishikesh", "Goa"];
+const popularLinks = [
+  { to: "/rooms", title: "Rooms from ₹499", note: "Smart · Comfort · Premium", Icon: BedDouble },
+  { to: "/thali-menu", title: "Thali at ₹120", note: "Fresh & home style", Icon: Sparkles },
+  { to: "/offers", title: "Offers & Coupons", note: "Save more on booking", Icon: BadgePercent },
+  { to: "/varanasi-guide", title: "Varanasi Guide", note: "Ghats, temples & food", Icon: MapPin },
+  { to: "/amenities", title: "Amenities", note: "Wi-Fi, backup & more", Icon: Wifi },
+  { to: "/partner", title: "Partner With Us", note: "List your property", Icon: Users },
+] as const;
 
 const heroBadges = [
   { Icon: Home, title: "Clean & Hygienic" },
