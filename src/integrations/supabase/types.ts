@@ -253,7 +253,9 @@ export type Database = {
           from_price: number
           id: string
           image_url: string | null
+          latitude: number | null
           location: string
+          longitude: number | null
           name: string
           rating: number
           reviews: number
@@ -269,7 +271,9 @@ export type Database = {
           from_price?: number
           id?: string
           image_url?: string | null
+          latitude?: number | null
           location: string
+          longitude?: number | null
           name: string
           rating?: number
           reviews?: number
@@ -285,7 +289,9 @@ export type Database = {
           from_price?: number
           id?: string
           image_url?: string | null
+          latitude?: number | null
           location?: string
+          longitude?: number | null
           name?: string
           rating?: number
           reviews?: number
