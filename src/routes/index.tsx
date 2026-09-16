@@ -59,7 +59,7 @@ const heroBadges = [
 ];
 
 const amenityIconMap: { match: RegExp; Icon: typeof Wifi }[] = [
-  { match: /wifi|internet/i, Icon: Wifi },
+  { match: /wi.?fi|internet/i, Icon: Wifi },
   { match: /24x7|support|help/i, Icon: Headphones },
   { match: /power|backup/i, Icon: BatteryCharging },
   { match: /housekeep|clean/i, Icon: Sparkles },
