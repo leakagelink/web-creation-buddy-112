@@ -139,6 +139,8 @@ export function PartnerDialog({ children }: { children: ReactNode }) {
       address: form.address.trim() || null,
       rooms_count: Number(form.rooms_count || 0),
       message: form.message.trim() || null,
+      photos: photos.map((p) => p.path),
+      amenities,
     });
     setSaving(false);
     if (insertError) {
