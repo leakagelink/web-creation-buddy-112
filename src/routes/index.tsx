@@ -3,8 +3,12 @@ import {
   BadgeCheck,
   BadgePercent,
   BedDouble,
+  BatteryCharging,
+  Camera,
   Clock,
+  Headphones,
   Home,
+  KeyRound,
   MapPin,
   Search,
   ShieldCheck,
@@ -331,13 +335,16 @@ function Index() {
           <p className="mt-1 text-sm text-muted-foreground">Everything you need for a comfortable stay</p>
         </div>
         <div className="grid gap-8 sm:grid-cols-3 lg:grid-cols-6">
-          {amenities.map((a) => (
-            <div key={a.title} className="group text-center transition-transform duration-300 hover:-translate-y-1">
-              <Wifi className="mx-auto h-7 w-7 text-navy transition-colors duration-300 group-hover:text-gold" strokeWidth={1.5} />
-              <div className="mt-2 text-sm font-bold">{a.title}</div>
-              <div className="text-xs text-muted-foreground">{a.sub}</div>
-            </div>
-          ))}
+          {amenities.map((a) => {
+            const Icon = amenityIcon(a.title);
+            return (
+              <div key={a.title} className="group text-center transition-transform duration-300 hover:-translate-y-1">
+                <Icon className="mx-auto h-7 w-7 text-gold transition-transform duration-300 group-hover:scale-110" strokeWidth={1.5} />
+                <div className="mt-2 text-sm font-bold">{a.title}</div>
+                <div className="text-xs text-muted-foreground">{a.sub}</div>
+              </div>
+            );
+          })}
         </div>
 
         <div className="mt-10 grid sm:mt-12 gap-6 rounded-lg bg-navy px-8 py-8 text-navy-foreground md:grid-cols-4">
