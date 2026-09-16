@@ -18,7 +18,37 @@ type Lead = {
   message: string | null;
   status: string;
   created_at: string;
+  photos: string[] | null;
+  amenities: string[] | null;
 };
+
+function LeadPhotos({ paths }: { paths: string[] }) {
+  const { data } = useQuery({
+    queryKey: ["partner-photo-urls", paths],
+    queryFn: async (): Promise<string[]> => {
+      const { data: signed, error } = await db.storage
+        .from("partner-photos")
+        .createSignedUrls(paths, 3600);
+      if (error) throw new Error(error.message);
+      return (signed ?? []).map((s) => s.signedUrl).filter(Boolean) as string[];
+    },
+  });
+  const urls = data ?? [];
+  if (urls.length === 0) return null;
+  return (
+    <div className="mt-4 flex flex-wrap gap-2">
+      {urls.map((url) => (
+        <a key={url} href={url} target="_blank" rel="noreferrer">
+          <img
+            src={url}
+            alt="Property photo"
+            className="h-24 w-32 rounded-md border border-border object-cover"
+          />
+        </a>
+      ))}
+    </div>
+  );
+}
 
 const statuses = ["new", "contacted", "onboarded", "rejected"];
 
