@@ -428,6 +428,42 @@ export type Database = {
         }
         Relationships: []
       }
+      thali_orders: {
+        Row: {
+          created_at: string
+          guest_name: string
+          id: string
+          items: string
+          mobile_number: string
+          property_name: string
+          room_number: string
+          status: string
+          total_amount: number
+        }
+        Insert: {
+          created_at?: string
+          guest_name: string
+          id?: string
+          items: string
+          mobile_number: string
+          property_name: string
+          room_number: string
+          status?: string
+          total_amount?: number
+        }
+        Update: {
+          created_at?: string
+          guest_name?: string
+          id?: string
+          items?: string
+          mobile_number?: string
+          property_name?: string
+          room_number?: string
+          status?: string
+          total_amount?: number
+        }
+        Relationships: []
+      }
       thalis: {
         Row: {
           badge: string | null
