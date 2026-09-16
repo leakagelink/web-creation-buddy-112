@@ -203,6 +203,7 @@ export type Database = {
       partner_leads: {
         Row: {
           address: string | null
+          amenities: string[]
           city: string
           created_at: string
           email: string | null
@@ -210,6 +211,7 @@ export type Database = {
           message: string | null
           owner_name: string
           phone: string
+          photos: string[]
           property_name: string
           property_type: string
           rooms_count: number
@@ -217,6 +219,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          amenities?: string[]
           city: string
           created_at?: string
           email?: string | null
@@ -224,6 +227,7 @@ export type Database = {
           message?: string | null
           owner_name: string
           phone: string
+          photos?: string[]
           property_name: string
           property_type?: string
           rooms_count?: number
@@ -231,6 +235,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          amenities?: string[]
           city?: string
           created_at?: string
           email?: string | null
@@ -238,6 +243,7 @@ export type Database = {
           message?: string | null
           owner_name?: string
           phone?: string
+          photos?: string[]
           property_name?: string
           property_type?: string
           rooms_count?: number

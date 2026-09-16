@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from "react";
-import { Loader2, CheckCircle2 } from "lucide-react";
+import { useRef, useState, type ReactNode } from "react";
+import { Loader2, CheckCircle2, Camera, Sparkles, Trash2, Upload } from "lucide-react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -24,6 +24,25 @@ const propertyTypes = [
   "Service Apartment",
   "Resort",
 ];
+
+const amenityOptions = [
+  "High-Speed Free Wi-Fi",
+  "24/7 Hot Water Geyser",
+  "Air Conditioning (AC)",
+  "Fresh Clean Bed Linen",
+  "Elevator / Lift",
+  "Dedicated Car Parking",
+  "100% Power Backup",
+  "Daily Housekeeping",
+  "House499 Pure Veg Thali",
+  "CCTV & 24/7 Security",
+  "24/7 Front Desk",
+  "Flat Screen TV",
+  "Couple Friendly",
+  "Electric Kettle & Tea Kit",
+];
+
+type Photo = { path: string; preview: string; name: string };
 
 type Form = {
   owner_name: string;
@@ -55,10 +74,52 @@ export function PartnerDialog({ children }: { children: ReactNode }) {
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [amenities, setAmenities] = useState<string[]>([]);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   function set<K extends keyof Form>(key: K, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
   }
+
+  function toggleAmenity(name: string) {
+    setAmenities((list) =>
+      list.includes(name) ? list.filter((a) => a !== name) : [...list, name],
+    );
+  }
+
+  async function handleFiles(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    setError("");
+    setUploading(true);
+    const uploaded: Photo[] = [];
+    for (const file of Array.from(files).slice(0, 10)) {
+      if (!file.type.startsWith("image/")) continue;
+      if (file.size > 10 * 1024 * 1024) {
+        setError(`${file.name} is larger than 10MB.`);
+        continue;
+      }
+      const ext = file.name.split(".").pop() || "jpg";
+      const path = `${crypto.randomUUID()}.${ext}`;
+      const { error: uploadError } = await db.storage
+        .from("partner-photos")
+        .upload(path, file, { contentType: file.type });
+      if (uploadError) {
+        setError("Photo upload failed. Please try again.");
+        continue;
+      }
+      uploaded.push({ path, preview: URL.createObjectURL(file), name: file.name });
+    }
+    setPhotos((p) => [...p, ...uploaded]);
+    setUploading(false);
+    if (fileRef.current) fileRef.current.value = "";
+  }
+
+  async function removePhoto(path: string) {
+    setPhotos((p) => p.filter((x) => x.path !== path));
+  }
+
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -78,6 +139,8 @@ export function PartnerDialog({ children }: { children: ReactNode }) {
       address: form.address.trim() || null,
       rooms_count: Number(form.rooms_count || 0),
       message: form.message.trim() || null,
+      photos: photos.map((p) => p.path),
+      amenities,
     });
     setSaving(false);
     if (insertError) {
@@ -86,6 +149,8 @@ export function PartnerDialog({ children }: { children: ReactNode }) {
     }
     setDone(true);
     setForm(empty);
+    setPhotos([]);
+    setAmenities([]);
   }
 
   return (
@@ -210,6 +275,104 @@ export function PartnerDialog({ children }: { children: ReactNode }) {
                 onChange={(e) => set("message", e.target.value)}
               />
             </label>
+
+            <div className="rounded-lg border border-border p-4 sm:col-span-2">
+              <h4 className="flex items-center gap-2 text-sm font-bold uppercase">
+                <Camera className="h-4 w-4 text-gold" />
+                Upload Hotel &amp; Room Photos (होटल फोटो अपलोड करें)
+              </h4>
+              <p className="mt-1 text-xs normal-case text-muted-foreground">
+                Upload photos of your building facade, reception desk, and guest rooms
+                {photos.length > 0 ? ` (${photos.length} photos added)` : ""}.
+              </p>
+
+              <div className="mt-3 flex flex-wrap gap-3">
+                {photos.map((p, i) => (
+                  <div
+                    key={p.path}
+                    className="relative h-24 w-32 overflow-hidden rounded-md border border-border"
+                  >
+                    <img src={p.preview} alt={p.name} className="h-full w-full object-cover" />
+                    {i === 0 && (
+                      <span className="absolute left-1 top-1 rounded bg-gold px-1.5 py-0.5 text-[10px] font-bold uppercase text-gold-foreground">
+                        Main Cover
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => removePhoto(p.path)}
+                      aria-label={`Remove ${p.name}`}
+                      className="absolute right-1 top-1 rounded bg-destructive p-1 text-destructive-foreground"
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  disabled={uploading}
+                  className="flex h-24 w-32 flex-col items-center justify-center gap-1 rounded-md border border-dashed border-border text-xs font-bold uppercase text-muted-foreground disabled:opacity-60"
+                >
+                  {uploading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Upload className="h-4 w-4" />
+                  )}
+                  {photos.length ? "Add More" : "Browse Files"}
+                </button>
+              </div>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={(e) => handleFiles(e.target.files)}
+              />
+            </div>
+
+            <div className="rounded-lg border border-border p-4 sm:col-span-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h4 className="flex items-center gap-2 text-sm font-bold uppercase">
+                  <Sparkles className="h-4 w-4 text-gold" />
+                  Available Amenities (होटल में उपलब्ध सुविधाएं)
+                </h4>
+                <span className="rounded-full bg-gold/15 px-2.5 py-1 text-[11px] font-bold uppercase text-gold">
+                  {amenities.length} Selected
+                </span>
+              </div>
+              <p className="mt-1 text-xs normal-case text-muted-foreground">
+                Select all amenities available at your property.
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {amenityOptions.map((a) => {
+                  const active = amenities.includes(a);
+                  return (
+                    <button
+                      key={a}
+                      type="button"
+                      onClick={() => toggleAmenity(a)}
+                      aria-pressed={active}
+                      className={`flex items-center gap-2 rounded-md border px-3 py-2 text-left text-xs font-semibold normal-case transition ${
+                        active
+                          ? "border-navy bg-navy text-navy-foreground"
+                          : "border-border bg-card text-foreground"
+                      }`}
+                    >
+                      <span
+                        className={`flex h-4 w-4 flex-none items-center justify-center rounded-sm border ${
+                          active ? "border-gold bg-gold text-gold-foreground" : "border-input"
+                        }`}
+                      >
+                        {active && <CheckCircle2 className="h-3 w-3" />}
+                      </span>
+                      {a}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
             {error && (
               <p role="alert" className="text-xs font-semibold text-destructive sm:col-span-2">

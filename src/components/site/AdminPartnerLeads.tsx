@@ -18,7 +18,37 @@ type Lead = {
   message: string | null;
   status: string;
   created_at: string;
+  photos: string[] | null;
+  amenities: string[] | null;
 };
+
+function LeadPhotos({ paths }: { paths: string[] }) {
+  const { data } = useQuery({
+    queryKey: ["partner-photo-urls", paths],
+    queryFn: async (): Promise<string[]> => {
+      const { data: signed, error } = await db.storage
+        .from("partner-photos")
+        .createSignedUrls(paths, 3600);
+      if (error) throw new Error(error.message);
+      return (signed ?? []).map((s) => s.signedUrl).filter(Boolean) as string[];
+    },
+  });
+  const urls = data ?? [];
+  if (urls.length === 0) return null;
+  return (
+    <div className="mt-4 flex flex-wrap gap-2">
+      {urls.map((url) => (
+        <a key={url} href={url} target="_blank" rel="noreferrer">
+          <img
+            src={url}
+            alt="Property photo"
+            className="h-24 w-32 rounded-md border border-border object-cover"
+          />
+        </a>
+      ))}
+    </div>
+  );
+}
 
 const statuses = ["new", "contacted", "onboarded", "rejected"];
 
@@ -135,6 +165,24 @@ export function AdminPartnerLeads() {
               </div>
             )}
           </dl>
+
+          {lead.amenities && lead.amenities.length > 0 && (
+            <div className="mt-4">
+              <p className="text-[11px] font-bold uppercase text-muted-foreground">Amenities</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {lead.amenities.map((a) => (
+                  <span
+                    key={a}
+                    className="rounded-full border border-border px-2.5 py-1 text-[11px] font-semibold"
+                  >
+                    {a}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {lead.photos && lead.photos.length > 0 && <LeadPhotos paths={lead.photos} />}
 
           <p className="mt-3 text-[11px] text-muted-foreground">
             Received {new Date(lead.created_at).toLocaleString("en-IN")}
