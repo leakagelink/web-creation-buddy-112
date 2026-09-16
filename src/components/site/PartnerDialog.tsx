@@ -276,6 +276,104 @@ export function PartnerDialog({ children }: { children: ReactNode }) {
               />
             </label>
 
+            <div className="rounded-lg border border-border p-4 sm:col-span-2">
+              <h4 className="flex items-center gap-2 text-sm font-bold uppercase">
+                <Camera className="h-4 w-4 text-gold" />
+                Upload Hotel &amp; Room Photos (होटल फोटो अपलोड करें)
+              </h4>
+              <p className="mt-1 text-xs normal-case text-muted-foreground">
+                Upload photos of your building facade, reception desk, and guest rooms
+                {photos.length > 0 ? ` (${photos.length} photos added)` : ""}.
+              </p>
+
+              <div className="mt-3 flex flex-wrap gap-3">
+                {photos.map((p, i) => (
+                  <div
+                    key={p.path}
+                    className="relative h-24 w-32 overflow-hidden rounded-md border border-border"
+                  >
+                    <img src={p.preview} alt={p.name} className="h-full w-full object-cover" />
+                    {i === 0 && (
+                      <span className="absolute left-1 top-1 rounded bg-gold px-1.5 py-0.5 text-[10px] font-bold uppercase text-gold-foreground">
+                        Main Cover
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => removePhoto(p.path)}
+                      aria-label={`Remove ${p.name}`}
+                      className="absolute right-1 top-1 rounded bg-destructive p-1 text-destructive-foreground"
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  disabled={uploading}
+                  className="flex h-24 w-32 flex-col items-center justify-center gap-1 rounded-md border border-dashed border-border text-xs font-bold uppercase text-muted-foreground disabled:opacity-60"
+                >
+                  {uploading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Upload className="h-4 w-4" />
+                  )}
+                  {photos.length ? "Add More" : "Browse Files"}
+                </button>
+              </div>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={(e) => handleFiles(e.target.files)}
+              />
+            </div>
+
+            <div className="rounded-lg border border-border p-4 sm:col-span-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h4 className="flex items-center gap-2 text-sm font-bold uppercase">
+                  <Sparkles className="h-4 w-4 text-gold" />
+                  Available Amenities (होटल में उपलब्ध सुविधाएं)
+                </h4>
+                <span className="rounded-full bg-gold/15 px-2.5 py-1 text-[11px] font-bold uppercase text-gold">
+                  {amenities.length} Selected
+                </span>
+              </div>
+              <p className="mt-1 text-xs normal-case text-muted-foreground">
+                Select all amenities available at your property.
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {amenityOptions.map((a) => {
+                  const active = amenities.includes(a);
+                  return (
+                    <button
+                      key={a}
+                      type="button"
+                      onClick={() => toggleAmenity(a)}
+                      aria-pressed={active}
+                      className={`flex items-center gap-2 rounded-md border px-3 py-2 text-left text-xs font-semibold normal-case transition ${
+                        active
+                          ? "border-navy bg-navy text-navy-foreground"
+                          : "border-border bg-card text-foreground"
+                      }`}
+                    >
+                      <span
+                        className={`flex h-4 w-4 flex-none items-center justify-center rounded-sm border ${
+                          active ? "border-gold bg-gold text-gold-foreground" : "border-input"
+                        }`}
+                      >
+                        {active && <CheckCircle2 className="h-3 w-3" />}
+                      </span>
+                      {a}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             {error && (
               <p role="alert" className="text-xs font-semibold text-destructive sm:col-span-2">
                 {error}
