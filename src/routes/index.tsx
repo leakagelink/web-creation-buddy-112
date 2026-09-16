@@ -74,6 +74,7 @@ function Index() {
   const [guests, setGuests] = useState(1);
   const [roomCount, setRoomCount] = useState(1);
   const [searchError, setSearchError] = useState("");
+  const [suggestOpen, setSuggestOpen] = useState(false);
 
   const today = new Date().toISOString().slice(0, 10);
 
@@ -90,8 +91,14 @@ function Index() {
       "h499-stay-search",
       JSON.stringify({ destination, checkIn, checkOut, guests, rooms: roomCount }),
     );
-    navigate({ to: "/rooms" });
+    navigate({ to: "/properties", search: { q: destination.trim() } });
   }
+
+  const suggestions = destination.trim()
+    ? properties.filter((p) =>
+        `${p.location} ${p.name}`.toLowerCase().includes(destination.trim().toLowerCase()),
+      )
+    : [];
 
   return (
     <>
@@ -135,13 +142,44 @@ function Index() {
           style={{ animationDelay: "120ms" }}
         >
           <SearchField label="Where are you going?" icon={<MapPin className="h-4 w-4" />}>
-            <input
-              value={destination}
-              onChange={(event) => setDestination(event.target.value)}
-              placeholder="City, area or property"
-              aria-label="Destination"
-              className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-            />
+            <div className="relative min-w-0 flex-1">
+              <input
+                value={destination}
+                onChange={(event) => {
+                  setDestination(event.target.value);
+                  setSuggestOpen(true);
+                }}
+                onFocus={() => setSuggestOpen(true)}
+                onBlur={() => setTimeout(() => setSuggestOpen(false), 150)}
+                placeholder="City, area or property"
+                aria-label="Destination"
+                autoComplete="off"
+                className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+              />
+              {suggestOpen && suggestions.length > 0 && (
+                <ul className="absolute left-0 right-0 top-full z-30 mt-1 max-h-56 overflow-auto rounded-md border border-border bg-card py-1 shadow-lg">
+                  {suggestions.map((p) => (
+                    <li key={p.id}>
+                      <button
+                        type="button"
+                        onMouseDown={(event) => {
+                          event.preventDefault();
+                          setDestination(p.location);
+                          setSuggestOpen(false);
+                        }}
+                        className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-gold/10"
+                      >
+                        <MapPin className="h-3.5 w-3.5 shrink-0 text-gold" />
+                        <span className="min-w-0">
+                          <span className="block truncate font-semibold">{p.location}</span>
+                          <span className="block truncate text-xs text-muted-foreground">{p.name}</span>
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </SearchField>
           <SearchField label="Check-in">
             <input
