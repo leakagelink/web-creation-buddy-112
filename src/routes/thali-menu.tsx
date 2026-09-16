@@ -55,7 +55,7 @@ function ThaliMenu() {
               </div>
               <div className="font-display text-3xl font-extrabold">₹{t.price}</div>
               <img
-                src={thaliImg}
+                src={thaliImages[t.id] ?? thaliImg}
                 alt={`${t.name} thali`}
                 width={900}
                 height={700}
