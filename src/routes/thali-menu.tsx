@@ -1,6 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MessageCircle, QrCode } from "lucide-react";
 import thaliImg from "@/assets/thali.jpg";
+import miniThaliImg from "@/assets/thali-mini.jpeg";
+import normalThaliImg from "@/assets/thali-normal.jpeg";
+import specialThaliImg from "@/assets/thali-special.jpeg";
+
+const thaliImages: Record<string, string> = {
+  mini: miniThaliImg,
+  normal: normalThaliImg,
+  special: specialThaliImg,
+};
 import { useThalis } from "@/lib/content";
 import { Reveal } from "@/components/site/Reveal";
 import { ThaliOrderDialog } from "@/components/site/ThaliOrderDialog";
