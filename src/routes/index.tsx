@@ -253,32 +253,31 @@ function Index() {
 
       <section className="mx-auto max-w-7xl px-4 pt-8 lg:pt-20">
         <div className="card-surface px-4 py-8 sm:px-6">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-gold">
-                Sabse Zyada Dekhe Gaye
-              </p>
-              <h2 className="section-title mt-1">Popular on House499</h2>
-            </div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
-              <span className="text-muted-foreground">Popular cities:</span>
+          <div className="mb-6 text-center">
+            <h2 className="section-title">
+              <span className="text-gold">Popular on</span>{" "}
+              <span className="text-navy">House499</span>
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">Sabse Zyada Dekhe Gaye</p>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-semibold">
+            <span className="text-muted-foreground">Popular cities:</span>
+            <Link
+              to="/properties"
+              className="hover-lift rounded-full border border-gold/40 bg-navy px-3 py-1.5 text-navy-foreground"
+            >
+              All Cities
+            </Link>
+            {properties.map((p) => (
               <Link
-                to="/properties"
-                className="hover-lift rounded-full border border-gold/40 bg-navy px-3 py-1.5 text-navy-foreground"
+                key={p.id}
+                to="/properties/$slug"
+                params={{ slug: p.slug }}
+                className="hover-lift rounded-full border border-border bg-background px-3 py-1.5 text-foreground hover:border-gold/50"
               >
-                All Cities
+                {p.location}
               </Link>
-              {properties.map((p) => (
-                <Link
-                  key={p.id}
-                  to="/properties/$slug"
-                  params={{ slug: p.slug }}
-                  className="hover-lift rounded-full border border-border bg-background px-3 py-1.5 text-foreground hover:border-gold/50"
-                >
-                  {p.location}
-                </Link>
-              ))}
-            </div>
+            ))}
           </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
