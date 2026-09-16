@@ -25,6 +25,25 @@ const propertyTypes = [
   "Resort",
 ];
 
+const amenityOptions = [
+  "High-Speed Free Wi-Fi",
+  "24/7 Hot Water Geyser",
+  "Air Conditioning (AC)",
+  "Fresh Clean Bed Linen",
+  "Elevator / Lift",
+  "Dedicated Car Parking",
+  "100% Power Backup",
+  "Daily Housekeeping",
+  "House499 Pure Veg Thali",
+  "CCTV & 24/7 Security",
+  "24/7 Front Desk",
+  "Flat Screen TV",
+  "Couple Friendly",
+  "Electric Kettle & Tea Kit",
+];
+
+type Photo = { path: string; preview: string; name: string };
+
 type Form = {
   owner_name: string;
   phone: string;
