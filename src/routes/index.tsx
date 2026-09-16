@@ -46,14 +46,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const popularLinks = [
-  { to: "/rooms", title: "Rooms from ₹499", note: "Smart · Comfort · Premium", Icon: BedDouble },
-  { to: "/thali-menu", title: "Thali at ₹120", note: "Fresh & home style", Icon: Sparkles },
-  { to: "/offers", title: "Offers & Coupons", note: "Save more on booking", Icon: BadgePercent },
-  { to: "/varanasi-guide", title: "Varanasi Guide", note: "Ghats, temples & food", Icon: MapPin },
-  { to: "/amenities", title: "Amenities", note: "Wi-Fi, backup & more", Icon: Wifi },
-  { to: "/partner", title: "Partner With Us", note: "List your property", Icon: Users },
-] as const;
 
 const heroBadges = [
   { Icon: Home, title: "Clean & Hygienic" },
@@ -251,58 +243,6 @@ function Index() {
         </form>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pt-8 lg:pt-20">
-        <div className="card-surface px-4 py-8 sm:px-6">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-gold">
-                Sabse Zyada Dekhe Gaye
-              </p>
-              <h2 className="section-title mt-1">Popular on House499</h2>
-            </div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
-              <span className="text-muted-foreground">Popular cities:</span>
-              <Link
-                to="/properties"
-                className="hover-lift rounded-full border border-gold/40 bg-navy px-3 py-1.5 text-navy-foreground"
-              >
-                All Cities
-              </Link>
-              {properties.map((p) => (
-                <Link
-                  key={p.id}
-                  to="/properties/$slug"
-                  params={{ slug: p.slug }}
-                  className="hover-lift rounded-full border border-border bg-background px-3 py-1.5 text-foreground hover:border-gold/50"
-                >
-                  {p.location}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {popularLinks.map(({ to, title, note, Icon }, i) => (
-              <Reveal key={to} delay={i * 70} className="h-full">
-                <Link
-                  to={to}
-                  className="hover-lift group flex h-full items-center gap-4 rounded-lg border border-border bg-background p-4"
-                >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-gold/15 text-gold">
-                    <Icon className="h-5 w-5" strokeWidth={1.8} />
-                  </span>
-                  <span>
-                    <span className="block text-sm font-extrabold uppercase tracking-wide group-hover:text-gold">
-                      {title}
-                    </span>
-                    <span className="mt-0.5 block text-xs text-muted-foreground">{note}</span>
-                  </span>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="mx-auto max-w-7xl px-4 pt-8 lg:pt-12">
         <div className="card-surface px-4 py-10 sm:px-6">
