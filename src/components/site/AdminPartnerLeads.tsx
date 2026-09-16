@@ -166,6 +166,24 @@ export function AdminPartnerLeads() {
             )}
           </dl>
 
+          {lead.amenities && lead.amenities.length > 0 && (
+            <div className="mt-4">
+              <p className="text-[11px] font-bold uppercase text-muted-foreground">Amenities</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {lead.amenities.map((a) => (
+                  <span
+                    key={a}
+                    className="rounded-full border border-border px-2.5 py-1 text-[11px] font-semibold"
+                  >
+                    {a}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {lead.photos && lead.photos.length > 0 && <LeadPhotos paths={lead.photos} />}
+
           <p className="mt-3 text-[11px] text-muted-foreground">
             Received {new Date(lead.created_at).toLocaleString("en-IN")}
           </p>
