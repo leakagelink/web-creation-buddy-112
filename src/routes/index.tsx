@@ -104,7 +104,7 @@ function Index() {
     new Set(
       properties.map((p) => {
         const parts = p.location.split(",");
-        return parts.length >= 2 ? parts[parts.length - 2].trim() : p.location.trim();
+        return (parts.length >= 2 ? parts[parts.length - 2] : p.location)?.trim() ?? p.location;
       }),
     ),
   );
