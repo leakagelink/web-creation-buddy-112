@@ -149,6 +149,8 @@ export function PartnerDialog({ children }: { children: ReactNode }) {
     }
     setDone(true);
     setForm(empty);
+    setPhotos([]);
+    setAmenities([]);
   }
 
   return (
