@@ -9,6 +9,7 @@ import { AdminProperties } from "@/components/site/AdminProperties";
 import { AdminCollection } from "@/components/site/AdminCollection";
 import { AdminSettings } from "@/components/site/AdminSettings";
 import { AdminPartnerLeads } from "@/components/site/AdminPartnerLeads";
+import { AdminThaliOrders } from "@/components/site/AdminThaliOrders";
 import { collections } from "@/lib/admin-schema";
 import { rooms } from "@/lib/site-data";
 
@@ -75,6 +76,7 @@ function AdminPage() {
     { key: "bookings", label: "Bookings" },
     { key: "properties", label: "Properties" },
     { key: "partner-leads", label: "Partner Requests" },
+    { key: "thali-orders", label: "Thali Orders" },
     ...collections.map((c) => ({ key: c.table, label: c.label })),
     { key: "settings", label: "Settings" },
   ];
@@ -139,6 +141,13 @@ function AdminPage() {
         <>
           <h1 className="section-title">Partner Requests</h1>
           <AdminPartnerLeads />
+        </>
+      )}
+
+      {tab === "thali-orders" && (
+        <>
+          <h1 className="section-title">Thali Orders</h1>
+          <AdminThaliOrders />
         </>
       )}
 

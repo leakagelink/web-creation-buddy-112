@@ -3,6 +3,7 @@ import { MessageCircle, QrCode } from "lucide-react";
 import thaliImg from "@/assets/thali.jpg";
 import { useThalis } from "@/lib/content";
 import { Reveal } from "@/components/site/Reveal";
+import { ThaliOrderDialog } from "@/components/site/ThaliOrderDialog";
 
 export const Route = createFileRoute("/thali-menu")({
   head: () => ({
@@ -57,9 +58,11 @@ function ThaliMenu() {
                   <li key={i}>• {i}</li>
                 ))}
               </ul>
-              <button className="hover-lift mt-5 flex w-full items-center justify-center gap-2 rounded-md bg-whatsapp py-2.5 text-xs font-bold uppercase text-navy-foreground">
-                Order Now <MessageCircle className="h-4 w-4" />
-              </button>
+              <ThaliOrderDialog defaultThaliId={t.id}>
+                <button className="hover-lift mt-5 flex w-full items-center justify-center gap-2 rounded-md bg-whatsapp py-2.5 text-xs font-bold uppercase text-navy-foreground">
+                  Order Now <MessageCircle className="h-4 w-4" />
+                </button>
+              </ThaliOrderDialog>
             </div>
             </Reveal>
           ))}
@@ -72,9 +75,11 @@ function ThaliMenu() {
             <div className="mx-auto mt-4 flex h-40 w-40 items-center justify-center rounded-md bg-card">
               <QrCode className="h-28 w-28 text-navy" strokeWidth={1.2} />
             </div>
-            <button className="mt-5 flex w-full items-center justify-center gap-2 rounded-md bg-whatsapp py-2.5 text-xs font-bold uppercase">
-              Order on WhatsApp <MessageCircle className="h-4 w-4" />
-            </button>
+            <ThaliOrderDialog>
+              <button className="mt-5 flex w-full items-center justify-center gap-2 rounded-md bg-whatsapp py-2.5 text-xs font-bold uppercase">
+                Order Now <MessageCircle className="h-4 w-4" />
+              </button>
+            </ThaliOrderDialog>
           </div></Reveal>
         </div>
       </div>
