@@ -1,10 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, MapPin, Star } from "lucide-react";
+import { zodValidator, fallback } from "@tanstack/zod-adapter";
+import { z } from "zod";
+import { ArrowRight, MapPin, Star, X } from "lucide-react";
 import { PropertiesMap } from "@/components/site/PropertiesMap";
 import { TrustBar } from "@/components/site/TrustBar";
 import { propertyImage, usePropertyList } from "@/lib/properties-client";
 
+const searchSchema = z.object({
+  q: fallback(z.string(), "").default(""),
+});
+
 export const Route = createFileRoute("/properties/")({
+  validateSearch: zodValidator(searchSchema),
   head: () => ({
     meta: [
       { title: "Our Properties — House499 Varanasi" },
@@ -26,14 +33,40 @@ export const Route = createFileRoute("/properties/")({
 });
 
 function PropertiesPage() {
-  const list = usePropertyList();
+  const { q } = Route.useSearch();
+  const all = usePropertyList();
+  const query = q.trim().toLowerCase();
+  const list = query
+    ? all.filter((p) => `${p.location} ${p.name}`.toLowerCase().includes(query))
+    : all;
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-16">
-      <h1 className="section-title">Our Properties</h1>
+      <h1 className="section-title">{query ? `Properties in “${q.trim()}”` : "Our Properties"}</h1>
       <p className="mt-1 text-sm text-muted-foreground">
         Every House499 property follows the same promise — Clean Rooms. Safe Stay. Best Price.
       </p>
+
+      {query && (
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          <span className="rounded-full bg-navy px-3 py-1.5 text-xs font-semibold text-navy-foreground">
+            {list.length} propert{list.length === 1 ? "y" : "ies"} found
+          </span>
+          <Link
+            to="/properties"
+            search={{ q: "" }}
+            className="hover-lift flex items-center gap-1 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold text-foreground hover:border-gold/50"
+          >
+            <X className="h-3.5 w-3.5" /> Clear search
+          </Link>
+        </div>
+      )}
+
+      {query && list.length === 0 && (
+        <p className="mt-8 rounded-lg border border-border bg-card p-6 text-sm text-muted-foreground">
+          Is location me abhi koi property nahi mili. Try “Varanasi”, “Prayagraj”, “Lucknow” ya “Gaya”.
+        </p>
+      )}
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {list.map((p) => (
