@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from "react";
-import { Loader2, CheckCircle2 } from "lucide-react";
+import { useRef, useState, type ReactNode } from "react";
+import { Loader2, CheckCircle2, Camera, Sparkles, Trash2, Upload } from "lucide-react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import {
