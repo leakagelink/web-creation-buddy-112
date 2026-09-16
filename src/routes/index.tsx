@@ -58,6 +58,20 @@ const heroBadges = [
   { Icon: Clock, title: "24x7 Support" },
 ];
 
+const amenityIconMap: { match: RegExp; Icon: typeof Wifi }[] = [
+  { match: /wifi|internet/i, Icon: Wifi },
+  { match: /24x7|support|help/i, Icon: Headphones },
+  { match: /power|backup/i, Icon: BatteryCharging },
+  { match: /housekeep|clean/i, Icon: Sparkles },
+  { match: /cctv|security|safe/i, Icon: Camera },
+  { match: /check.?in|key|reception/i, Icon: KeyRound },
+];
+
+function amenityIcon(title: string): typeof Wifi {
+  const found = amenityIconMap.find((m) => m.match.test(title));
+  return found?.Icon ?? ShieldCheck;
+}
+
 function Index() {
   const rooms = useRooms();
   const thalis = useThalis();
