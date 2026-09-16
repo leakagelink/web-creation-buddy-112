@@ -1,10 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, MapPin, Star } from "lucide-react";
+import { zodValidator, fallback } from "@tanstack/zod-adapter";
+import { z } from "zod";
+import { ArrowRight, MapPin, Star, X } from "lucide-react";
 import { PropertiesMap } from "@/components/site/PropertiesMap";
 import { TrustBar } from "@/components/site/TrustBar";
 import { propertyImage, usePropertyList } from "@/lib/properties-client";
 
+const searchSchema = z.object({
+  q: fallback(z.string(), "").default(""),
+});
+
 export const Route = createFileRoute("/properties/")({
+  validateSearch: zodValidator(searchSchema),
   head: () => ({
     meta: [
       { title: "Our Properties — House499 Varanasi" },
