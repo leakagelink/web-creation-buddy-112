@@ -266,74 +266,9 @@ function Index() {
         </div>
       </section>
 
-      <section className="mt-10 bg-navy sm:mt-14 py-10 text-navy-foreground sm:py-14">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 lg:grid-cols-[0.8fr_2fr]">
-          <div>
-            <h2 className="text-3xl uppercase">
-              House<span className="text-gold">499</span> Thali
-            </h2>
-            <p className="mt-2 text-xs uppercase tracking-[0.2em] text-gold-soft">
-              Fresh · Hygienic · Pocket Friendly
-            </p>
-            <ul className="mt-6 space-y-3 text-sm text-navy-foreground/80">
-              {["Prepared Fresh For You", "Hygienic Kitchen & Quality Ingredients", "Delivered to Your Room", "Affordable & Satisfaction Guaranteed"].map(
-                (t) => (
-                  <li key={t} className="flex items-start gap-2">
-                    <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-                    {t}
-                  </li>
-                ),
-              )}
-            </ul>
-            <Link
-              to="/thali-menu"
-              className="hover-lift mt-6 inline-block rounded-md bg-gold px-6 py-3 text-sm font-extrabold uppercase text-gold-foreground"
-            >
-              View Full Menu
-            </Link>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-3">
-            {thalis.map((thali, i) => (
-              <Reveal key={thali.id} delay={i * 90} className="h-full">
-              <div className="hover-lift h-full rounded-lg bg-card p-4 text-card-foreground">
-                <div className="text-center">
-                  <div className="text-sm font-bold uppercase tracking-wide">{thali.name}</div>
-                  <div className="mt-1 flex items-center justify-center gap-2">
-                    <span className="font-display text-2xl font-extrabold">₹{thali.price}</span>
-                    {thali.badge && (
-                      <span className="rounded bg-gold px-2 py-0.5 text-[10px] font-bold uppercase text-gold-foreground">
-                        {thali.badge}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <img
-                  src={thaliImg}
-                  alt={`${thali.name} served in a compartment tray`}
-                  width={900}
-                  height={700}
-                  loading="lazy"
-                  className="mt-3 h-32 w-full rounded-md object-cover"
-                />
-                <ul className="mt-3 space-y-1 text-xs text-muted-foreground">
-                  {thali.items.map((i) => (
-                    <li key={i}>• {i}</li>
-                  ))}
-                </ul>
-                <Link
-                  to="/thali-menu"
-                  className="mt-4 block rounded-md bg-whatsapp py-2 text-center text-xs font-bold uppercase text-navy-foreground"
-                >
-                  Order Now
-                </Link>
-              </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <FeaturedProperties />
+
+
 
       {/* Thali banner — click to open the full thali menu */}
       <section className="mx-auto max-w-7xl px-4 pb-10 sm:pb-14">
