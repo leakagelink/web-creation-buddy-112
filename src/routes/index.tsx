@@ -100,7 +100,14 @@ function Index() {
       )
     : [];
 
-  const popularCities = Array.from(new Set(properties.map((p) => p.location)));
+  const popularCities = Array.from(
+    new Set(
+      properties.map((p) => {
+        const parts = p.location.split(",");
+        return parts.length >= 2 ? parts[parts.length - 2].trim() : p.location.trim();
+      }),
+    ),
+  );
 
   return (
     <>
