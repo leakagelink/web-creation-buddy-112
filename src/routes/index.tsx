@@ -100,6 +100,8 @@ function Index() {
       )
     : [];
 
+  const popularCities = Array.from(new Set(properties.map((p) => p.location)));
+
   return (
     <>
       <section className="relative bg-navy pb-10 text-navy-foreground sm:pb-12 lg:pb-24">
@@ -226,6 +228,19 @@ function Index() {
             <Search className="h-4 w-4" /> Search Stay
           </Button>
           {searchError && <p role="alert" className="text-xs font-semibold text-destructive lg:col-span-5">{searchError}</p>}
+          <div className="flex flex-wrap items-center gap-2 text-xs lg:col-span-5">
+            <span className="font-semibold text-muted-foreground">Popular cities:</span>
+            {popularCities.map((city) => (
+              <button
+                key={city}
+                type="button"
+                onClick={() => navigate({ to: "/properties", search: { q: city } })}
+                className="hover-lift rounded-full border border-border bg-background px-3 py-1 font-semibold text-foreground hover:border-gold/50"
+              >
+                {city}
+              </button>
+            ))}
+          </div>
         </form>
       </section>
 
