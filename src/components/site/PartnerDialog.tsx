@@ -74,10 +74,52 @@ export function PartnerDialog({ children }: { children: ReactNode }) {
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [amenities, setAmenities] = useState<string[]>([]);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   function set<K extends keyof Form>(key: K, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
   }
+
+  function toggleAmenity(name: string) {
+    setAmenities((list) =>
+      list.includes(name) ? list.filter((a) => a !== name) : [...list, name],
+    );
+  }
+
+  async function handleFiles(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    setError("");
+    setUploading(true);
+    const uploaded: Photo[] = [];
+    for (const file of Array.from(files).slice(0, 10)) {
+      if (!file.type.startsWith("image/")) continue;
+      if (file.size > 10 * 1024 * 1024) {
+        setError(`${file.name} is larger than 10MB.`);
+        continue;
+      }
+      const ext = file.name.split(".").pop() || "jpg";
+      const path = `${crypto.randomUUID()}.${ext}`;
+      const { error: uploadError } = await db.storage
+        .from("partner-photos")
+        .upload(path, file, { contentType: file.type });
+      if (uploadError) {
+        setError("Photo upload failed. Please try again.");
+        continue;
+      }
+      uploaded.push({ path, preview: URL.createObjectURL(file), name: file.name });
+    }
+    setPhotos((p) => [...p, ...uploaded]);
+    setUploading(false);
+    if (fileRef.current) fileRef.current.value = "";
+  }
+
+  async function removePhoto(path: string) {
+    setPhotos((p) => p.filter((x) => x.path !== path));
+  }
+
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
