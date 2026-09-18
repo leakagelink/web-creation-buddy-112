@@ -6,9 +6,17 @@ const config: CapacitorConfig = {
   // sirf formality ke liye zaroori — app live website load karta hai (neeche server.url)
   webDir: "public",
   server: {
-    // App seedha custom domain ko load karega (lovable.app redirect → browser bug avoid karne ke liye)
+    // Load the published site inside the native WebView.
     url: "https://home.socilet.one",
     androidScheme: "https",
+    // Keep navigation on every House499 deployment inside the app, including
+    // redirects between the custom domain and Lovable's published host.
+    allowNavigation: [
+      "home.socilet.one",
+      "*.socilet.one",
+      "web-creation-buddy-112.lovable.app",
+      "*.lovable.app",
+    ],
   },
   android: {
     // App ke andar hi navigation — koi bhi link browser me na khule
