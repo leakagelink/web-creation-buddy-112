@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">House499</string>
+    <string name="title_activity_main">House499</string>
+    <string name="package_name">com.house499.app</string>
+    <string name="custom_url_scheme">com.house499.app</string>
+</resources>
