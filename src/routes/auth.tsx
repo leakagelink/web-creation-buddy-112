@@ -83,17 +83,8 @@ function AuthPage() {
     }
   }
 
-  async function handleGoogle() {
-    setError("");
-    if (redirect && redirect.startsWith("/") && !redirect.startsWith("//")) {
-      sessionStorage.setItem(REDIRECT_KEY, redirect);
-    }
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) setError("Google sign-in failed. Please try again.");
-    if (result.redirected) return;
-  }
+  // Google sign-in temporarily hidden — email/password only.
+
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-navy px-4 py-12 text-navy-foreground">
@@ -110,25 +101,8 @@ function AuthPage() {
             : "Create your House499 account to continue."}
         </p>
 
-        <button
-          onClick={handleGoogle}
-          disabled={busy}
-          className="mt-6 flex min-h-11 w-full items-center justify-center gap-3 rounded-md border border-gold/40 bg-card px-4 text-sm font-bold text-navy transition-colors hover:bg-accent disabled:opacity-60"
-        >
-          <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
-            <path fill="#EA4335" d="M12 5.04c1.62 0 3.06.56 4.2 1.64l3.12-3.12C17.46 1.8 14.96.75 12 .75 7.62.75 3.84 3.27 2.04 6.86l3.66 2.84C6.54 6.9 9 5.04 12 5.04z" />
-            <path fill="#4285F4" d="M23.25 12.26c0-.79-.07-1.55-.2-2.27H12v4.51h6.32c-.27 1.48-1.12 2.72-2.37 3.56l3.62 2.81c2.12-1.96 3.31-4.84 3.32-8.32z" transform="translate(-1 0)" />
-            <path fill="#FBBC05" d="M5.7 14.3a7.05 7.05 0 0 1 0-4.6L2.04 6.86a11.26 11.26 0 0 0 0 10.28L5.7 14.3z" />
-            <path fill="#34A853" d="M12 23.25c3.04 0 5.6-1 4.05-2.72l-3.6-2.8c-.98.66-2.2 1.05-2.45 1.05-3 0-5.46-1.86-6.3-4.5l-3.66 2.84C1.86 20.68 7.62 23.25 12 23.25z" />
-          </svg>
-          Continue with Google
-        </button>
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
 
-        <div className="my-5 flex items-center gap-3 text-[10px] uppercase tracking-widest text-navy-foreground/50">
-          <span className="h-px flex-1 bg-navy-foreground/15" /> or <span className="h-px flex-1 bg-navy-foreground/15" />
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
           <label className="block">
             <span className="text-xs font-semibold uppercase tracking-wide text-navy-foreground/70">Email</span>
             <div className="mt-1 flex items-center gap-2 rounded-md bg-card px-3 py-2.5 text-navy">
