@@ -6,9 +6,13 @@ const config: CapacitorConfig = {
   // sirf formality ke liye zaroori — app live website load karta hai (neeche server.url)
   webDir: "public",
   server: {
-    // App aapki live website ko load karega taki booking, admin, maps — sab kaam karein
-    url: "https://web-creation-buddy-112.lovable.app",
+    // App seedha custom domain ko load karega (lovable.app redirect → browser bug avoid karne ke liye)
+    url: "https://home.socilet.one",
     androidScheme: "https",
+  },
+  android: {
+    // App ke andar hi navigation — koi bhi link browser me na khule
+    allowMixedContent: false,
   },
 };
 
